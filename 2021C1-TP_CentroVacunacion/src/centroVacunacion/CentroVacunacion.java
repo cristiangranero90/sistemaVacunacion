@@ -63,15 +63,22 @@ public class CentroVacunacion {
 	* total de vacunas disponibles no vencidas sin distinci�n por tipo.
 	*/
 	public int vacunasDisponibles() {
-		
-		return vacunasVencidas;
+		int cont=0;
+		Iterator<Vacuna> iterador = vacunas.iterator();
+		if (iterador.hasNext() && !iterador.next().estaVencida())
+			cont++;
+		return cont;
 	}
 	/**
 	* total de vacunas disponibles no vencidas que coincida con el nombre de
 	* vacuna especificado.
 	*/
 	public int vacunasDisponibles(String nombreVacuna) {
-		return 0;
+		int cont=0;
+		for (Vacuna vac: vacunas)
+			if(!vac.estaVencida() && vac.getNombre()==nombreVacuna)
+				cont++;
+		return cont;
 	}
 	/**
 	* Se inscribe una persona en lista de espera.
