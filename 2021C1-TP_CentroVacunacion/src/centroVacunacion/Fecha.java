@@ -1,4 +1,4 @@
-package centroVacunacion;
+ue, cuapackage centroVacunacion;
 
 import java.time.LocalDate;
 import java.time.Period;
