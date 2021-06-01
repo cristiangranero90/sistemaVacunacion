@@ -6,12 +6,14 @@ public class Vacuna {
 	Fecha ingreso;
 	String nombre;
 	private int vencidas;
+	boolean vencida;
 	
 	public Vacuna (String nombre, int cant, Fecha fi) {
 		this.nombre=nombre;
 		cantidad=cantidad+cant;
 		ingreso=fi;
 		conservacion=esRefrigerada(nombre);
+		vencida=false;
 		
 		
 	}
@@ -35,6 +37,45 @@ public class Vacuna {
 	
 	public int dameVencidad () {
 		return vencidas;
+	}
+	
+	public boolean estaVencida () {
+		if (vencida==true)
+			return true;
+		else
+			return false;
+	}
+
+	public boolean isConservacion() {
+		return conservacion;
+	}
+
+	public void setConservacion(boolean conservacion) {
+		this.conservacion = conservacion;
+	}
+
+	public Fecha getIngreso() {
+		return ingreso;
+	}
+
+	public void setIngreso(Fecha ingreso) {
+		this.ingreso = ingreso;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public boolean isVencida() {
+		return vencida;
+	}
+
+	public void setVencida(boolean vencida) {
+		this.vencida = vencida;
 	}
 
 	@Override
