@@ -12,6 +12,8 @@ public class Turno {
 	persona=per;
 	}
 	
+	//Getters and Setters--------------------------------------------------------
+	
 	public Vacuna getVacuna() {
 		return vacuna;
 	}

@@ -10,7 +10,7 @@ import java.util.Map;
 public class CentroVacunacion {
 	int capacidad;
 	String nombre;
-	Deposito vacunasDiesiocho;
+	Deposito vacunasDieciocho;
 	Deposito vacunasTres;
 	
 	//ArrayList <Vacuna> vacunas;
@@ -31,8 +31,15 @@ public class CentroVacunacion {
 		turnos = new ArrayList<>();
 		inscriptos = new ArrayList<>();
 		reporte = new HashMap<>();
-		vacunasDiesiocho = new Deposito(18);
+		vacunasDieciocho = new Deposito(18);
 		vacunasTres = new Deposito(3);
+		
+	}
+	
+	public void agendarTurno(Vacuna vac,  Fecha f, Persona per) {
+		
+		Turno nuevo = new Turno(vac, f, per);
+		turnos.add(nuevo);
 		
 	}
 		
@@ -56,11 +63,11 @@ public class CentroVacunacion {
 				setStock(getStock() + cantidad);
 			}
 			else if (nombre.equals("moderna")) {
-				vacunasDiesiocho.agregarVacunas(new Moderna (nombreVacuna, fechaIngreso), cantidad);
+				vacunasDieciocho.agregarVacunas(new Moderna (nombreVacuna, fechaIngreso), cantidad);
 				setStock(getStock() + cantidad);
 			}
 			else if (nombre.equals("pfizer")) {
-				vacunasDiesiocho.agregarVacunas(new Pfizer (nombreVacuna, fechaIngreso), cantidad);
+				vacunasDieciocho.agregarVacunas(new Pfizer (nombreVacuna, fechaIngreso), cantidad);
 				setStock(getStock() + cantidad);
 			}
 			else if (nombre.equals("sinopharm")) {
@@ -84,18 +91,18 @@ public class CentroVacunacion {
 	* total de vacunas disponibles no vencidas sin distinci�n por tipo.
 	*/
 	public int vacunasDisponibles() {	
-		//vacunasDiesiocho.actualizarVencidas();
-		//vacunasTres.actualizarVencidas();
-		return vacunasDiesiocho.cantVacunas() + vacunasTres.cantVacunas();
+		vacunasDieciocho.actualizarVencidas();
+		vacunasTres.actualizarVencidas();
+		return vacunasDieciocho.cantVacunas() + vacunasTres.cantVacunas();
 	}
 	/**
 	* total de vacunas disponibles no vencidas que coincida con el nombre de
 	* vacuna especificado.
 	*/
 	public int vacunasDisponibles(String nombreVacuna) {	
-		vacunasDiesiocho.actualizarVencidas();
+		vacunasDieciocho.actualizarVencidas();
 		vacunasTres.actualizarVencidas();
-		return vacunasDiesiocho.cantVacunasNombre(nombreVacuna) + vacunasTres.cantVacunasNombre(nombreVacuna);			
+		return vacunasDieciocho.cantVacunasNombre(nombreVacuna) + vacunasTres.cantVacunasNombre(nombreVacuna);			
 	}
 	/**
 	* Se inscribe una persona en lista de espera.
@@ -107,6 +114,9 @@ public class CentroVacunacion {
 		
 		inscriptos.add(new Persona(dni, nacimiento,tienePadecimientos, esEmpleadoSalud) );
 		
+	}
+	public void eliminarPersona(Persona per) {
+		inscriptos.remove(per);
 	}
 	/**
 	* Devuelve una lista con los DNI de todos los inscriptos que no se vacunaron
@@ -136,12 +146,39 @@ public class CentroVacunacion {
 	*
 	*/
 	public void generarTurnos(Fecha fechaInicial) {
-		retirarTurnosVencidos(fechaInicial);
+		retirarTurnosVencidos(fechaInicial);		
 		generarPrioridad();
 		retirarVacunasVencidas();
 		
-		//Falta armar los turnos
+		Fecha hoy = new Fecha();
+		int porDia;
 		
+		
+		//Falta armar los turnos
+		Iterator<Persona> iterador = inscriptos.iterator();
+		
+		 while(hoy.compareTo(fechaInicial) < 0) {
+			 
+			porDia = getCapacidad(); //Renueva
+			
+			while (iterador.hasNext() && porDia>0) {
+				
+				Vacuna nueva = dameVacunaPorPrioridad(iterador.next().getPrioridad());
+			
+				if (nueva!=null ) {
+					agendarTurno(nueva, hoy, iterador.next());	
+					//Falta eliminar a la persona??? o lo hace vacunarInscriptos???
+					eliminarPersona(iterador.next());
+					porDia--;
+				}
+				else {
+					throw new RuntimeException("No se puede asignar.");
+				}
+			}
+			hoy.avanzarUnDia();			
+			//NO sirve, revisar el ciclo while
+			//COmplica
+		}
 	}
 	/**
 	* Devuelve una lista con los dni de las personas que tienen turno asignado
@@ -186,7 +223,7 @@ public class CentroVacunacion {
 		if (iterador.hasNext() && iterador.next().getFecha().compareTo(f)<0) {			
 			
 			if(iterador.next().getVacuna().equals("pfizer") || iterador.next().getVacuna().equals("moderna")) {
-				vacunasDiesiocho.agregarVacunas(iterador.next().getVacuna());	
+				vacunasDieciocho.agregarVacunas(iterador.next().getVacuna());	
 				turnos.remove(iterador.next());
 			}
 			else {
@@ -197,7 +234,7 @@ public class CentroVacunacion {
 	}
 		
 	private void retirarVacunasVencidas() {
-		vacunasDiesiocho.actualizarVencidas();
+		vacunasDieciocho.actualizarVencidas();
 		vacunasTres.actualizarVencidas();
 	}
 	
@@ -209,21 +246,60 @@ public class CentroVacunacion {
 				if (per.prioridad==prio) {
 					Persona nueva=new Persona (per);
 					inscriptos.remove(per);
-					inscriptos.add(inscriptos.size(), nueva);}
+					inscriptos.add(inscriptos.size(), nueva);
+				}
 			
-			prio++;	}
-			
-		
-	}}
+			prio++;	
+			}
+        }		
+	}
 	
 	private Vacuna dameVacunaPorPrioridad(int prio) {
-		if (prio==2) {
-			
-		}
-			
 		
+		if (prio==2 && vacunasDisponibles() > 0) {
+			
+			for (Vacuna vac : getVacunasDieciocho().vacunas) {
+				if (vac.getNombre().equals("pfizer")) {
+					Vacuna nueva = vac;
+					getVacunasDieciocho().quitarVacuna(vac);
+					return nueva;
+				}
+			}
+			for (Vacuna vac : getVacunasTres().vacunas) {
+				if (vac.getNombre().equals("sputnik")) {
+					Vacuna nueva = vac;
+					getVacunasTres().quitarVacuna(vac);
+					return nueva;
+				}
+			}
+		}
+		else if (prio!=2 && prio!=0 && vacunasDisponibles() > 0) {
+			
+			for (Vacuna vac : getVacunasDieciocho().vacunas) {
+				if (!vac.getNombre().equals("pfizer")) {
+					Vacuna nueva = vac;
+					getVacunasDieciocho().quitarVacuna(vac);
+					return nueva;
+				}
+			}
+			for (Vacuna vac : getVacunasTres().vacunas) {
+				if (!vac.getNombre().equals("sputnik")) {
+					Vacuna nueva = vac;
+					getVacunasTres().quitarVacuna(vac);
+					return nueva;
+				}
+			}
+		}
+		return null;		
+	}
+	
+	public void agregarAlReporte(int dni, Vacuna vac ) {
+		
+		reporte.put((Integer) dni, vac);
 	}
 
+	//Getters and Setters----------------------------------------------------------------------------
+	
 	public int getCapacidad() {
 		return capacidad;
 	}
@@ -240,12 +316,12 @@ public class CentroVacunacion {
 		this.nombre = nombre;
 	}
 
-	public Deposito getVacunasDiesiocho() {
-		return vacunasDiesiocho;
+	public Deposito getVacunasDieciocho() {
+		return vacunasDieciocho;
 	}
 
 	public void setVacunasDiesiocho(Deposito vacunasDiesiocho) {
-		this.vacunasDiesiocho = vacunasDiesiocho;
+		this.vacunasDieciocho = vacunasDiesiocho;
 	}
 
 	public Deposito getVacunasTres() {
