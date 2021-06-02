@@ -2,18 +2,18 @@ package centroVacunacion;
 
 public class Vacuna {
 	boolean conservacion;
-	private int cantidad;
+	//private int cantidad;
 	Fecha ingreso;
 	String nombre;
-	private int vencidas;
-	boolean vencida;
+	//private int vencidas;
+	//boolean vencida;
 	
-	public Vacuna (String nombre, int cant, Fecha fi) {
+	public Vacuna (String nombre, Fecha fi) {
 		this.nombre=nombre;
-		cantidad=cantidad+cant;
+		//cantidad=cantidad+cant;
 		ingreso=fi;
 		conservacion=esRefrigerada(nombre);
-		vencida=false;
+		//vencida=false;
 		
 		
 	}
@@ -31,19 +31,17 @@ public class Vacuna {
 		return result;
 	}
 	
-	public int dameTotal () {
-		return cantidad;
-	}
+	//public int dameTotal () {
+		//return cantidad;
+	//}
 	
-	public int dameVencidad () {
-		return vencidas;
-	}
+	//public int dameVencidad () {
+	//	return vencidas;
+	//}
 	
 	public boolean estaVencida () {
-		if (vencida==true)
-			return true;
-		else
-			return false;
+		
+		return isVencida();
 	}
 
 	public boolean isConservacion() {

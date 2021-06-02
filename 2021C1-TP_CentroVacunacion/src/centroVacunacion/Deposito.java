@@ -8,12 +8,13 @@ public class Deposito {
 	protected HashMap<String, Vacuna> vencidas;
 	protected int cantidad;
 	protected int temperatura;
+	private int vacunasVencidas;
 		
 	Deposito(int temperatura){
 		
 		setCantidad(0);
 		setTemperatura(temperatura);
-		setVencidas(0);
+		setVacunasVencidas(0);
 		vacunas = new HashMap<>();
 		vencidas = new HashMap<>();
 		
@@ -23,11 +24,11 @@ public class Deposito {
 		
 		for (int i = 0; i < cantidad; i++) {
 			
-			Vacuna nueva = new Vacuna(tipo, getTemperatura(), Fecha f);
+			Vacuna nueva = new Vacuna(tipo, Fecha f);
 			
 			if (nueva.estaVencida()) {
 				vencidas.put(tipo, nueva);
-				setVencidas(getVencidas() + 1);
+				setVacunasVencidas(getVacunasVencidas() + 1);
 			}
 			else {
 				vacunas.put(tipo, nueva);
@@ -50,7 +51,7 @@ public class Deposito {
 	
 	public int cantVencidas() {
 		
-		return getVencidas();
+		return vencidas.size();
 	}
 
 	
@@ -59,6 +60,14 @@ public class Deposito {
 	
 	public int getCantidad() {
 		return cantidad;
+	}
+
+	public int getVacunasVencidas() {
+		return vacunasVencidas;
+	}
+
+	public void setVacunasVencidas(int vacunasVencidas) {
+		this.vacunasVencidas = vacunasVencidas;
 	}
 
 	public void setCantidad(int cantidad) {
@@ -77,13 +86,6 @@ public class Deposito {
 		this.temperatura = temperatura;
 	}
 
-	public int getVencidas() {
-		return vencidas;
-	}
-
-	public void setVencidas(int vencidas) {
-		this.vencidas = vencidas;
-	}
 
 	
 }
