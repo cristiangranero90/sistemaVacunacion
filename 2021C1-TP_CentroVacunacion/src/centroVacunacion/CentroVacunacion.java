@@ -11,8 +11,9 @@ public class CentroVacunacion {
 	int capacidad;
 	String nombre;
 	ArrayList <Vacuna> vacunas;
-	ArrayList<Turno> turnos;
-	HashSet <Persona> inscriptos;
+	ArrayList<Turno> turnos; 
+	ArrayList <Persona> inscriptos;
+	HashMap <Integer,Vacuna> reporte; 
 	int vacunasVencidas;
 	int stock;
 	
@@ -54,7 +55,7 @@ public class CentroVacunacion {
 		if (nombreVacuna.toLowerCase()!="sputnik" && nombreVacuna.toLowerCase()!="moderna" &&
 				nombreVacuna.toLowerCase()!="pfizer" && nombreVacuna.toLowerCase()!="sinopharm"
 				&& nombreVacuna.toLowerCase()!="astrazeneca")
-			throw new Exception ("el nombre ingresado no corresponde a una vacuna");
+			throw new RuntimeException ("el nombre ingresado no corresponde a una vacuna");
 		
 		if (cantidad<1)
 			throw new Exception ("el numero ingresado debe ser mayor que uno");
@@ -121,6 +122,12 @@ public class CentroVacunacion {
 	*
 	*/
 	public void generarTurnos(Fecha fechaInicial) {
+		retirarTurnosVencidos(fechaInicial);
+		generarPrioridad();
+		int i=1;
+		while(i<=capacidad) {
+			Turno nuevo= new Turno ();
+		}
 		
 	}
 	/**
@@ -161,5 +168,44 @@ public class CentroVacunacion {
 		Map<String, Integer> lista= new HashMap <String,Integer> ();
 		return lista;
 	}
+	
+	private void retirarTurnosVencidos(Fecha f) {
+		Iterator<Turno> iterador = turnos.iterator();
+		if (iterador.hasNext() && iterador.next().getFecha().compareTo(f)<0) {
+			vacunas.add(iterador.next().getVacuna());
+			turnos.remove(iterador.next());
+			
+		}
+		}
+		
+	private void retirarVacunasVencidas(Fecha f) {
+
+	}
+	
+	private void generarPrioridad() {
+		int prio=1;
+        while(prio<=4)
+        {
+			for (Persona per: inscriptos) {
+				if (per.prioridad==prio) {
+					Persona nueva=new Persona (per);
+					inscriptos.remove(per);
+					inscriptos.add(inscriptos.size(), nueva);}
+			
+			prio++;	}
+			
+		
+	}}
+	
+	private Vacuna dameVacunaPorPrioridad(int prio) {
+		if (prio==2) {
+			
+		}
+			
+		
+	}
+	
+	
+	
 
 }

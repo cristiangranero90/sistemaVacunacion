@@ -11,7 +11,9 @@ public class Moderna extends Vacuna {
 		
 	}
 	
-	public void asignarVencimiento(int venc) {
-		//this.vencimiento=super.ingreso.avanzarDias(venc);
+	public void asignarVencimiento(Fecha fi) {
+		fi.avanzarDias(30);
+		vencimiento=fi;
+		
 	}
 }

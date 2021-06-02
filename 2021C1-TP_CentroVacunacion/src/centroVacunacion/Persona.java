@@ -10,6 +10,34 @@ public class Persona {
 	boolean estaVacunado;
 	int prioridad;
 	
+	public Fecha getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+
+	public void setFechaNacimiento(Fecha fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public boolean isEstaVacunado() {
+		return estaVacunado;
+	}
+
+	public void setEstaVacunado(boolean estaVacunado) {
+		this.estaVacunado = estaVacunado;
+	}
+
+	public int getPrioridad() {
+		return prioridad;
+	}
+
+	public void setPrioridad(int prioridad) {
+		this.prioridad = prioridad;
+	}
+	
+	public Persona (Persona n) {
+		
+	}
+
 	public Persona (int dni, Fecha fechaNac, boolean tienePadecimientos, boolean esEmpleadoSalud){
 		this.edad=Fecha.diferenciaAnios(Fecha.hoy(), fechaNac);
 		this.dni=dni;
