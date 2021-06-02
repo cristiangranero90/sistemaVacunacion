@@ -84,8 +84,8 @@ public class CentroVacunacion {
 	* total de vacunas disponibles no vencidas sin distinci�n por tipo.
 	*/
 	public int vacunasDisponibles() {	
-		vacunasDiesiocho.actualizarVencidas();
-		vacunasTres.actualizarVencidas();
+		//vacunasDiesiocho.actualizarVencidas();
+		//vacunasTres.actualizarVencidas();
 		return vacunasDiesiocho.cantVacunas() + vacunasTres.cantVacunas();
 	}
 	/**
