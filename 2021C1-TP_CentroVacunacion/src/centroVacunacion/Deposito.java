@@ -82,15 +82,15 @@ public class Deposito {
 			if (iterador.next().getNombre().equals("pfizer") ){
 				if(iterador.next().getIngreso().posterior(otra));	{	
 					Vacuna nueva = new Pfizer(iterador.next().getNombre() , iterador.next().getIngreso());
-					vencidas.agregarVencida(nueva);
-					vacunas.quitarVacuna(iterador.next());
+					agregarVencida(nueva);
+					quitarVacuna(iterador.next());
 				}
 			}
 			else if(iterador.next().getNombre().equals("moderna")) {
 				if(iterador.next().getIngreso().posterior(otra));	{	
 					Vacuna nueva = new Moderna(iterador.next().getNombre() , iterador.next().getIngreso());
-					vencidas.agregarVencida(nueva);
-					vacunas.quitarVacuna(iterador.hasNext());
+					agregarVencida(nueva);
+					quitarVacuna(iterador.next());
 				}
 			}
 		}

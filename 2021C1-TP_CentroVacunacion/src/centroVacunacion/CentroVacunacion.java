@@ -1,9 +1,7 @@
 package centroVacunacion;
 
-import java.awt.List;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -16,7 +14,7 @@ public class CentroVacunacion {
 	//ArrayList <Vacuna> vacunas;
 	ArrayList<Turno> turnos; 
 	ArrayList <Persona> inscriptos;
-	HashMap <Integer,Vacuna> reporte; 
+	HashMap <Integer,String> reporte; 
 	int vacunasVencidas;
 	int stock;
 	
@@ -146,18 +144,20 @@ public class CentroVacunacion {
 	*
 	*/
 	public void generarTurnos(Fecha fechaInicial) {
-		retirarTurnosVencidos(fechaInicial);		
+		
+		retirarTurnosVencidos(fechaInicial); 	
 		generarPrioridad();
 		retirarVacunasVencidas();
 		
 		Fecha hoy = new Fecha();
 		int porDia;
+		boolean bandera = true;
 		
 		
 		//Falta armar los turnos
 		Iterator<Persona> iterador = inscriptos.iterator();
 		
-		 while(hoy.compareTo(fechaInicial) < 0) {
+		 while(bandera) {
 			 
 			porDia = getCapacidad(); //Renueva
 			
@@ -165,14 +165,14 @@ public class CentroVacunacion {
 				
 				Vacuna nueva = dameVacunaPorPrioridad(iterador.next().getPrioridad());
 			
-				if (nueva!=null ) {
+				if (nueva!=null && vacunasDisponibles() != 0 ) {
 					agendarTurno(nueva, hoy, iterador.next());	
 					//Falta eliminar a la persona??? o lo hace vacunarInscriptos???
 					eliminarPersona(iterador.next());
 					porDia--;
 				}
 				else {
-					throw new RuntimeException("No se puede asignar.");
+					bandera = false;
 				}
 			}
 			hoy.avanzarUnDia();			
@@ -188,6 +188,14 @@ public class CentroVacunacion {
 	*/
 	public ArrayList<Integer> turnosConFecha(Fecha fecha){
 		ArrayList<Integer>  lista = new ArrayList <Integer> ();
+		Iterator<Turno> iterador = turnos.iterator();
+		
+		while (iterador.hasNext()) {
+			
+			if(iterador.next().getFecha().compareTo(fecha) == 0) {
+				lista.add(iterador.next().persona.dni);
+			}
+		}
 		return lista;
 	}
 	/**
@@ -199,6 +207,7 @@ public class CentroVacunacion {
 	*/
 	public void vacunarInscripto(int dni, Fecha fechaVacunacion) {
 		
+		//Este ni puta idea mai fren
 	}
 	/**
 	* Devuelve un Diccionario donde
@@ -206,8 +215,8 @@ public class CentroVacunacion {
 	* - Y, el valor es el nombre de la vacuna aplicada.
 	*/
 	public Map<Integer, String> reporteVacunacion(){
-		Map<Integer, String> lista= new HashMap <Integer,String> ();
-		return lista;
+		
+		return getReporte();
 	}
 	/** Devuelve en O(1) un Diccionario:
 	* - clave: nombre de la vacuna
@@ -222,7 +231,9 @@ public class CentroVacunacion {
 		Iterator<Turno> iterador = turnos.iterator();
 		if (iterador.hasNext() && iterador.next().getFecha().compareTo(f)<0) {			
 			
-			if(iterador.next().getVacuna().equals("pfizer") || iterador.next().getVacuna().equals("moderna")) {
+			if(iterador.next().getVacuna().getNombre().equals("pfizer") || 
+					iterador.next().getVacuna().getNombre().equals("moderna")) {
+				
 				vacunasDieciocho.agregarVacunas(iterador.next().getVacuna());	
 				turnos.remove(iterador.next());
 			}
@@ -295,7 +306,7 @@ public class CentroVacunacion {
 	
 	public void agregarAlReporte(int dni, Vacuna vac ) {
 		
-		reporte.put((Integer) dni, vac);
+		reporte.put((Integer) dni, vac.getNombre());
 	}
 
 	//Getters and Setters----------------------------------------------------------------------------
@@ -348,11 +359,11 @@ public class CentroVacunacion {
 		this.inscriptos = inscriptos;
 	}
 
-	public HashMap<Integer, Vacuna> getReporte() {
+	public Map<Integer, String> getReporte() {
 		return reporte;
 	}
 
-	public void setReporte(HashMap<Integer, Vacuna> reporte) {
+	public void setReporte(HashMap<Integer, String> reporte) {
 		this.reporte = reporte;
 	}
 
