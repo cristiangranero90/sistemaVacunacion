@@ -45,33 +45,39 @@ public class CentroVacunacion {
 	* sumar al stock existente, tomando en cuenta las vacunas ya utilizadas.
 	 * @throws Exception 
 	*/
-	public void ingresarVacunas(String nombreVacuna, int cantidad, Fecha fechaIngreso) throws Exception {
+	public void ingresarVacunas(String nombreVacuna, int cantidad, Fecha fechaIngreso)  {
 		if (cantidad<1)
-			throw new Exception ("el numero ingresado debe ser mayor que uno");
-		
-		if (nombreVacuna.toLowerCase()=="sputnik") {
-				vacunasTres.agregarVacunas(new Sputnik (nombreVacuna, fechaIngreso));
+			throw new RuntimeException ("el numero ingresado debe ser mayor que uno");
+		else {
+			String nombre = nombreVacuna.toLowerCase();
+			
+			if (nombre.equals("sputnik")) {
+				vacunasTres.agregarVacunas(new Sputnik (nombre, fechaIngreso),cantidad);
 				setStock(getStock() + cantidad);
-		}
-		if (nombreVacuna.toLowerCase()=="moderna") {
+			}
+			else if (nombre.equals("moderna")) {
 				vacunasDiesiocho.agregarVacunas(new Moderna (nombreVacuna, fechaIngreso), cantidad);
 				setStock(getStock() + cantidad);
-		}
-		if (nombreVacuna.toLowerCase()=="pfizer") {
+			}
+			else if (nombre.equals("pfizer")) {
 				vacunasDiesiocho.agregarVacunas(new Pfizer (nombreVacuna, fechaIngreso), cantidad);
 				setStock(getStock() + cantidad);
-		}
-		if (nombreVacuna.toLowerCase()=="sinopharm") {
+			}
+			else if (nombre.equals("sinopharm")) {
 				vacunasTres.agregarVacunas(new Sinopharm (nombreVacuna, fechaIngreso) , cantidad);
 				setStock(getStock() + cantidad);
-		}
-		if (nombreVacuna.toLowerCase()=="astrazeneca") {
+			}
+			else if (nombre.equals("astrazeneca")) {
 				vacunasTres.agregarVacunas(new Astrazeneca (nombreVacuna, fechaIngreso), cantidad);
 				setStock(getStock() + cantidad);
+			}
+			else {
+				throw new RuntimeException ("el nombre ingresado no corresponde a una vacuna");
 		}
-		else {
-			throw new RuntimeException ("el nombre ingresado no corresponde a una vacuna");
-		}
+			
+	}
+		
+		
 			
 	}
 	/**

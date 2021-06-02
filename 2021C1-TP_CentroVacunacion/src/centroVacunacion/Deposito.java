@@ -102,7 +102,7 @@ public class Deposito {
 //Getters and setters ---------------------------------------------------
 	
 	public int cantVacunas() {		
-		return getCantidad();
+		return cantidad;
 	}
 	
 	public int cantVencidas() {		
@@ -123,10 +123,10 @@ public class Deposito {
 
 	public void setCantidad(int cantidad) {
 		
-		if (cantidad >= 0) {
+		if (cantidad > 0) {
 			this.cantidad = cantidad;
 		}
-		throw new RuntimeException();
+		
 	}
 
 	public int getTemperatura() {
