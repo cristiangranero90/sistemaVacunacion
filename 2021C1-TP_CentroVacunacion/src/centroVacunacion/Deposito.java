@@ -1,11 +1,12 @@
 package centroVacunacion;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+//import java.util.HashMap;
 
 public class Deposito {
 	
-	protected HashMap<String, Vacuna> vacunas;
-	protected HashMap<String, Vacuna> vencidas;
+	protected ArrayList<Vacuna> vacunas;
+	protected ArrayList<Vacuna> vencidas;
 	protected int cantidad;
 	protected int temperatura;
 	private int vacunasVencidas;
@@ -15,49 +16,71 @@ public class Deposito {
 		setCantidad(0);
 		setTemperatura(temperatura);
 		setVacunasVencidas(0);
-		vacunas = new HashMap<>();
-		vencidas = new HashMap<>();
+		vacunas = new ArrayList<>();
+		vencidas = new ArrayList<>();
 		
 	}
 	
-	public void agregarVacunas(String tipo, int cantidad) {
+	public void agregarVacunas(Vacuna vac, int cantidad) {
+		
+		//Fecha otra = new Fecha(); //Fecha de hoy
 		
 		for (int i = 0; i < cantidad; i++) {
 			
-			Vacuna nueva = new Vacuna(tipo, Fecha f);
-			
-			if (nueva.estaVencida()) {
-				vencidas.put(tipo, nueva);
-				setVacunasVencidas(getVacunasVencidas() + 1);
-			}
-			else {
-				vacunas.put(tipo, nueva);
-				setCantidad(getCantidad() + 1); 
-			}
-			
-		}
+			if (vacunas.add(vac)) {
+				setCantidad(getCantidad() + 1);
+			}					
+	}
+}
+	
+	public void agregarVacunas(Vacuna vac) {
+		vacunas.add(vac);
 	}
 	
-	public void quitarVacuna(String tipo) {
-		
-		vacunas.remove(tipo);
+	public void quitarVacuna(Vacuna nueva) {
+		//Vacuna nueva = new Vacuna(tipo, new Fecha());
+		vacunas.remove(nueva);
 		setCantidad(getCantidad() - 1);
 	}
 	
-	public int cantVacunas() {
+	public void agregarVencida(Vacuna vac) {
+		if (vencidas.add(vac)) {
+			setVacunasVencidas(getVacunasVencidas() + 1);
+		}
 		
-		return getCantidad();
+	}
+	public void quitarVencida(Vacuna vac) {
+		
+		if (vencidas.remove(vac)) {
+			setVacunasVencidas(getVacunasVencidas() - 1);
+		}		
 	}
 	
-	public int cantVencidas() {
+	public int cantVacunasNombre(String nombre) {
+		int contador = 0;
 		
-		return vencidas.size();
+		for(Vacuna vac : vacunas) {
+			if (vac.getNombre().equals(nombre.toLowerCase())) {
+				contador++;
+			}
+		}
+		return contador;
 	}
+	
+	
+	
 
 	
 //Getters and setters ---------------------------------------------------
 	
+	public int cantVacunas() {		
+		return getCantidad();
+	}
 	
+	public int cantVencidas() {		
+		return vencidas.size();
+	}
+
 	public int getCantidad() {
 		return cantidad;
 	}

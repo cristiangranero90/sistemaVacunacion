@@ -5,15 +5,12 @@ public class Moderna extends Vacuna {
 	int espacioEnHeladera;
 	int tiempoDeVencimiento;
 	
-	public Moderna (String nombre, int cant, Fecha fi) {
-		super(nombre,cant,fi);
-		this.tiempoDeVencimiento=30;
+	public Moderna (String nombre, Fecha fi) {
+		super(nombre, fi);
+		this.tiempoDeVencimiento=60;
 		
+		super.ingreso.avanzarDias(tiempoDeVencimiento);
+				
 	}
 	
-	public void asignarVencimiento(Fecha fi) {
-		fi.avanzarDias(30);
-		vencimiento=fi;
-		
-	}
 }

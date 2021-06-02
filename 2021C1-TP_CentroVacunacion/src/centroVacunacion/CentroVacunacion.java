@@ -10,7 +10,10 @@ import java.util.Map;
 public class CentroVacunacion {
 	int capacidad;
 	String nombre;
-	ArrayList <Vacuna> vacunas;
+	Deposito vacunasDiesiocho;
+	Deposito vacunasTres;
+	
+	//ArrayList <Vacuna> vacunas;
 	ArrayList<Turno> turnos; 
 	ArrayList <Persona> inscriptos;
 	HashMap <Integer,Vacuna> reporte; 
@@ -25,6 +28,12 @@ public class CentroVacunacion {
 	public  CentroVacunacion(String nombreCentro, int capacidadVacunacionDiaria) {
 		this.nombre=nombreCentro;
 		this.capacidad=capacidadVacunacionDiaria;
+		turnos = new ArrayList<>();
+		inscriptos = new ArrayList<>();
+		reporte = new HashMap<>();
+		vacunasDiesiocho = new Deposito(18);
+		vacunasTres = new Deposito(3);
+		
 	}
 		
 	/**
@@ -37,49 +46,46 @@ public class CentroVacunacion {
 	 * @throws Exception 
 	*/
 	public void ingresarVacunas(String nombreVacuna, int cantidad, Fecha fechaIngreso) throws Exception {
-		if (nombreVacuna.toLowerCase()=="sputnik")
-				vacunas.add(new Sputnik (nombreVacuna, cantidad, fechaIngreso));
-				this.stock=this.stock+cantidad;
-		if (nombreVacuna.toLowerCase()=="moderna")
-				vacunas.add(new Moderna (nombreVacuna, cantidad, fechaIngreso));
-				this.stock=this.stock+cantidad;	
-		if (nombreVacuna.toLowerCase()=="pfizer")
-				vacunas.add(new Pfizer (nombreVacuna, cantidad, fechaIngreso));
-				this.stock=this.stock+cantidad;
-		if (nombreVacuna.toLowerCase()=="sinopharm")
-				vacunas.add(new Sinopharm (nombreVacuna, cantidad, fechaIngreso));
-				this.stock=this.stock+cantidad;
-		if (nombreVacuna.toLowerCase()=="astrazeneca")
-				vacunas.add(new Astrazeneca (nombreVacuna, cantidad, fechaIngreso));
-				this.stock=this.stock+cantidad;
-		if (nombreVacuna.toLowerCase()!="sputnik" && nombreVacuna.toLowerCase()!="moderna" &&
-				nombreVacuna.toLowerCase()!="pfizer" && nombreVacuna.toLowerCase()!="sinopharm"
-				&& nombreVacuna.toLowerCase()!="astrazeneca")
-			throw new RuntimeException ("el nombre ingresado no corresponde a una vacuna");
-		
 		if (cantidad<1)
 			throw new Exception ("el numero ingresado debe ser mayor que uno");
+		
+		if (nombreVacuna.toLowerCase()=="sputnik") {
+				vacunasTres.agregarVacunas(new Sputnik (nombreVacuna, fechaIngreso));
+				setStock(getStock() + cantidad);
+		}
+		if (nombreVacuna.toLowerCase()=="moderna") {
+				vacunasDiesiocho.agregarVacunas(new Moderna (nombreVacuna, fechaIngreso), cantidad);
+				setStock(getStock() + cantidad);
+		}
+		if (nombreVacuna.toLowerCase()=="pfizer") {
+				vacunasDiesiocho.agregarVacunas(new Pfizer (nombreVacuna, fechaIngreso), cantidad);
+				setStock(getStock() + cantidad);
+		}
+		if (nombreVacuna.toLowerCase()=="sinopharm") {
+				vacunasTres.agregarVacunas(new Sinopharm (nombreVacuna, fechaIngreso) , cantidad);
+				setStock(getStock() + cantidad);
+		}
+		if (nombreVacuna.toLowerCase()=="astrazeneca") {
+				vacunasTres.agregarVacunas(new Astrazeneca (nombreVacuna, fechaIngreso), cantidad);
+				setStock(getStock() + cantidad);
+		}
+		else {
+			throw new RuntimeException ("el nombre ingresado no corresponde a una vacuna");
+		}
+			
 	}
 	/**
 	* total de vacunas disponibles no vencidas sin distinci�n por tipo.
 	*/
-	public int vacunasDisponibles() {
-		int cont=0;
-		Iterator<Vacuna> iterador = vacunas.iterator();
-		if (iterador.hasNext() && !iterador.next().estaVencida())
-			cont++;
-		return cont;
+	public int vacunasDisponibles() {		
+		return getStock();
 	}
 	/**
 	* total de vacunas disponibles no vencidas que coincida con el nombre de
 	* vacuna especificado.
 	*/
-	public int vacunasDisponibles(String nombreVacuna) {
-		int cont=0;
-		for (Vacuna vac: vacunas)
-			if(!vac.estaVencida() && vac.getNombre()==nombreVacuna)
-				cont++;
-		return cont;
+	public int vacunasDisponibles(String nombreVacuna) {		
+		return vacunasDiesiocho.cantVacunasNombre(nombreVacuna) + vacunasTres.cantVacunasNombre(nombreVacuna);			
 	}
 	/**
 	* Se inscribe una persona en lista de espera.
@@ -87,11 +93,9 @@ public class CentroVacunacion {
 	* generar una excepci�n.
 	* Si la persona ya fue vacunada, tambi�n debe generar una excepci�n.
 	*/
-	public void inscribirPersona(int dni, Fecha nacimiento,
-	boolean tienePadecimientos, boolean esEmpleadoSalud) {
-		Persona paciente= new Persona(dni, nacimiento,
-				tienePadecimientos, esEmpleadoSalud);
-		inscriptos.add(paciente);
+	public void inscribirPersona(int dni, Fecha nacimiento, boolean tienePadecimientos, boolean esEmpleadoSalud) {
+		
+		inscriptos.add(new Persona(dni, nacimiento,tienePadecimientos, esEmpleadoSalud) );
 		
 	}
 	/**
@@ -204,8 +208,80 @@ public class CentroVacunacion {
 			
 		
 	}
+
+	public int getCapacidad() {
+		return capacidad;
+	}
+
+	public void setCapacidad(int capacidad) {
+		this.capacidad = capacidad;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public Deposito getVacunasDiesiocho() {
+		return vacunasDiesiocho;
+	}
+
+	public void setVacunasDiesiocho(Deposito vacunasDiesiocho) {
+		this.vacunasDiesiocho = vacunasDiesiocho;
+	}
+
+	public Deposito getVacunasTres() {
+		return vacunasTres;
+	}
+
+	public void setVacunasTres(Deposito vacunasTres) {
+		this.vacunasTres = vacunasTres;
+	}
+
+	public ArrayList<Turno> getTurnos() {
+		return turnos;
+	}
+
+	public void setTurnos(ArrayList<Turno> turnos) {
+		this.turnos = turnos;
+	}
+
+	public ArrayList<Persona> getInscriptos() {
+		return inscriptos;
+	}
+
+	public void setInscriptos(ArrayList<Persona> inscriptos) {
+		this.inscriptos = inscriptos;
+	}
+
+	public HashMap<Integer, Vacuna> getReporte() {
+		return reporte;
+	}
+
+	public void setReporte(HashMap<Integer, Vacuna> reporte) {
+		this.reporte = reporte;
+	}
+
+	public int getVacunasVencidas() {
+		return vacunasVencidas;
+	}
+
+	public void setVacunasVencidas(int vacunasVencidas) {
+		this.vacunasVencidas = vacunasVencidas;
+	}
+
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
 	
-	
+
 	
 
 }

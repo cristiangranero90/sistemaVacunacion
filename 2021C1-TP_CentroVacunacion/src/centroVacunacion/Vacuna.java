@@ -39,10 +39,10 @@ public class Vacuna {
 	//	return vencidas;
 	//}
 	
-	public boolean estaVencida () {
+	//public boolean estaVencida () {
 		
-		return isVencida();
-	}
+	//	return isVencida();
+	//}
 
 	public boolean isConservacion() {
 		return conservacion;
@@ -68,13 +68,13 @@ public class Vacuna {
 		this.nombre = nombre;
 	}
 
-	public boolean isVencida() {
-		return vencida;
-	}
+	//public boolean isVencida() {
+		//return vencida;
+	//}
 
-	public void setVencida(boolean vencida) {
-		this.vencida = vencida;
-	}
+	//public void setVencida(boolean vencida) {
+		//this.vencida = vencida;
+	//}
 
 	@Override
 	public boolean equals(Object obj) {
