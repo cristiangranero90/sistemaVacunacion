@@ -77,14 +77,18 @@ public class CentroVacunacion {
 	/**
 	* total de vacunas disponibles no vencidas sin distinci�n por tipo.
 	*/
-	public int vacunasDisponibles() {		
-		return getStock();
+	public int vacunasDisponibles() {	
+		vacunasDiesiocho.actualizarVencidas();
+		vacunasTres.actualizarVencidas();
+		return vacunasDiesiocho.cantVacunas() + vacunasTres.cantVacunas();
 	}
 	/**
 	* total de vacunas disponibles no vencidas que coincida con el nombre de
 	* vacuna especificado.
 	*/
-	public int vacunasDisponibles(String nombreVacuna) {		
+	public int vacunasDisponibles(String nombreVacuna) {	
+		vacunasDiesiocho.actualizarVencidas();
+		vacunasTres.actualizarVencidas();
 		return vacunasDiesiocho.cantVacunasNombre(nombreVacuna) + vacunasTres.cantVacunasNombre(nombreVacuna);			
 	}
 	/**
@@ -128,10 +132,9 @@ public class CentroVacunacion {
 	public void generarTurnos(Fecha fechaInicial) {
 		retirarTurnosVencidos(fechaInicial);
 		generarPrioridad();
-		int i=1;
-		while(i<=capacidad) {
-			Turno nuevo= new Turno ();
-		}
+		retirarVacunasVencidas();
+		
+		//Falta armar los turnos
 		
 	}
 	/**
@@ -163,8 +166,7 @@ public class CentroVacunacion {
 		Map<Integer, String> lista= new HashMap <Integer,String> ();
 		return lista;
 	}
-	/**
-	* Devuelve en O(1) un Diccionario:
+	/** Devuelve en O(1) un Diccionario:
 	* - clave: nombre de la vacuna
 	* - valor: cantidad de vacunas vencidas conocidas hasta el momento.
 	*/
@@ -175,15 +177,22 @@ public class CentroVacunacion {
 	
 	private void retirarTurnosVencidos(Fecha f) {
 		Iterator<Turno> iterador = turnos.iterator();
-		if (iterador.hasNext() && iterador.next().getFecha().compareTo(f)<0) {
-			vacunas.add(iterador.next().getVacuna());
-			turnos.remove(iterador.next());
+		if (iterador.hasNext() && iterador.next().getFecha().compareTo(f)<0) {			
 			
+			if(iterador.next().getVacuna().equals("pfizer") || iterador.next().getVacuna().equals("moderna")) {
+				vacunasDiesiocho.agregarVacunas(iterador.next().getVacuna());	
+				turnos.remove(iterador.next());
+			}
+			else {
+				vacunasTres.agregarVacunas(iterador.next().getVacuna());
+				turnos.remove(iterador.next());
+			}			
 		}
-		}
+	}
 		
-	private void retirarVacunasVencidas(Fecha f) {
-
+	private void retirarVacunasVencidas() {
+		vacunasDiesiocho.actualizarVencidas();
+		vacunasTres.actualizarVencidas();
 	}
 	
 	private void generarPrioridad() {

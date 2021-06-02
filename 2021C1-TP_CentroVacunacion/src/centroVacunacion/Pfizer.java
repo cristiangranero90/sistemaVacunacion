@@ -23,6 +23,8 @@ public class Pfizer extends Vacuna {
 
 	
 
+	
+
 	public int getTiempoDeVencimiento() {
 		return tiempoDeVencimiento;
 	}
