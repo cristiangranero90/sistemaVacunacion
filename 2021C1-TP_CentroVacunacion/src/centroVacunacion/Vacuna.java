@@ -8,6 +8,12 @@ public class Vacuna {
 	//private int vencidas;
 	//boolean vencida;
 	
+	public Vacuna() {
+		
+		this.nombre="";
+		this.ingreso=Fecha.hoy();
+	}
+	
 	public Vacuna (String nombre, Fecha fi) {
 		this.nombre=nombre;
 		//cantidad=cantidad+cant;

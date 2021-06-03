@@ -1,8 +1,9 @@
 package centroVacunacion;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
-public class Deposito {
+public class Deposito implements Iterable<Vacuna>{
 	
 	protected ArrayList<Vacuna> vacunas;
 	protected int cantidad;
@@ -18,18 +19,21 @@ public class Deposito {
 	
 	public void agregarVacunas(Vacuna vac) {
 		
-		if(vacunas.add(vac)) {
-			setCantidad(getCantidad() + 1);
+		
+		vacunas.add(vac);
+		setCantidad(getCantidad() + 1);
+		//System.out.println("Entro a vacunasSimple");
 
-		}
+		
 	}
 	
 	public void agregarVacunas(Vacuna vac, int cantidad) {
 		
 		for (int i = 0; i<cantidad; i++) {
-			if (vacunas.add(vac)) {
+			vacunas.add(vac);
 				setCantidad(getCantidad() + 1);
-			}			
+			//	System.out.println("Entro a vacunasM");
+				
 		}
 	}
 	
@@ -52,7 +56,7 @@ public class Deposito {
 	}
 	
 	public int cantVacunas() {
-		return getCantidad();
+		return vacunas.size();
 	}
 	
 	public boolean existeVacuna(Vacuna vac) {
@@ -95,6 +99,12 @@ public class Deposito {
 
 	public void setTemperatura(int temperatura) {
 		this.temperatura = temperatura;
+	}
+
+	@Override
+	public Iterator<Vacuna> iterator() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

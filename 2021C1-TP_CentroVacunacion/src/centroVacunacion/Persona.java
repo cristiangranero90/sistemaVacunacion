@@ -44,6 +44,8 @@ public class Persona {
 		this.enfermedadPre=tienePadecimientos;
 		this.personalSalud=esEmpleadoSalud;
 		this.fechaNacimiento=fechaNac;
+		esPrioridad();
+		
 	}
 	
 	public boolean mayorDe60 (){
@@ -151,7 +153,7 @@ public class Persona {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Persona other = (Persona) obj;
+		Persona other = new Persona((Persona) obj);
 		if (dni != other.dni)
 			return false;
 		return true;

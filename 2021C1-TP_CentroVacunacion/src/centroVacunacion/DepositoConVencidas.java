@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class DepositoConVencidas extends Deposito{
+public class DepositoConVencidas extends Deposito implements Iterable<Vacuna>{
 	
 	//protected ArrayList<Vacuna> vacunas;
 	protected Map<String, Integer> vencidas;
@@ -32,21 +32,20 @@ public class DepositoConVencidas extends Deposito{
 				setVacunasVencidas(getVacunasVencidas() + 1);
 			}
 			else {
-				agregarVacunas(vac);
+				super.agregarVacunas(vac);
 			}			
 		}
 	}
 	
 	public void agregarVacunas(Vacuna vac) {
 		
-		agregarVacunas(vac, 1);
+		super.agregarVacunas(vac);
 	}
 	
 	public void quitarVacuna(Vacuna nueva) {
 		//Vacuna nueva = new Vacuna(tipo, new Fecha());
-		if(vacunas.remove(nueva)) {
-			setCantidad(getCantidad() - 1);
-		}
+		super.quitarVacuna(nueva);
+		setCantidad(getCantidad() - 1);
 	}
 	
 	public void agregarVencida(Vacuna vac) {
@@ -79,8 +78,8 @@ public class DepositoConVencidas extends Deposito{
 					//Vacuna nueva = new Pfizer(iterador.next().getNombre() , iterador.next().getIngreso());
 					setVacunasVencidas(getVacunasVencidas() + 1);
 					agregarVencida(iterador.next());
-					quitarVacuna(iterador.next());
-					setCantidad(getCantidad()-1);
+					super.quitarVacuna(iterador.next());
+					super.setCantidad(getCantidad()-1);
 				}
 			}
 			else if(iterador.next().getNombre().equals("moderna")) {
@@ -88,8 +87,8 @@ public class DepositoConVencidas extends Deposito{
 					//Vacuna nueva = new Moderna(iterador.next().getNombre() , iterador.next().getIngreso());
 					setVacunasVencidas(getVacunasVencidas() + 1);
 					agregarVencida(iterador.next());
-					quitarVacuna(iterador.next());
-					setCantidad(getCantidad() - 1);
+					super.quitarVacuna(iterador.next());
+					super.setCantidad(getCantidad() - 1);
 				}
 			}
 		}
@@ -144,6 +143,13 @@ public class DepositoConVencidas extends Deposito{
 
 	public void setTemperatura(int temperatura) {
 		this.temperatura = temperatura;
+	}
+
+	@Override
+	public Iterator<Vacuna> iterator() {
+		
+		// TODO Auto-generated method stub
+		return vacunas.iterator();
 	}
 
 	
