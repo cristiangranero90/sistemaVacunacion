@@ -8,7 +8,7 @@ import java.util.Map;
 public class CentroVacunacion {
 	int capacidad;
 	String nombre;
-	Deposito vacunasDieciocho;
+	DepositoConVencidas vacunasDieciocho;
 	Deposito vacunasTres;
 	
 	//ArrayList <Vacuna> vacunas;
@@ -29,7 +29,7 @@ public class CentroVacunacion {
 		turnos = new ArrayList<>();
 		inscriptos = new ArrayList<>();
 		reporte = new HashMap<>();
-		vacunasDieciocho = new Deposito(18);
+		vacunasDieciocho = new DepositoConVencidas(18);
 		vacunasTres = new Deposito(3);
 		
 	}
@@ -93,18 +93,19 @@ public class CentroVacunacion {
 	*/
 	public int vacunasDisponibles() {	
 		vacunasDieciocho.actualizarVencidas();
-		vacunasTres.actualizarVencidas();
+		//vacunasTres.actualizarVencidas();
 		return vacunasDieciocho.cantVacunas() + vacunasTres.cantVacunas();
+	}
+	
+	public int vacunasDisponibles(String nombre) {
+		vacunasDieciocho.actualizarVencidas();		
+		return vacunasDieciocho.cantVacunas(nombre) + vacunasTres.cantVacunas(nombre);
 	}
 	/**
 	* total de vacunas disponibles no vencidas que coincida con el nombre de
 	* vacuna especificado.
 	*/
-	public int vacunasDisponibles(String nombreVacuna) {	
-		vacunasDieciocho.actualizarVencidas();
-		vacunasTres.actualizarVencidas();
-		return vacunasDieciocho.cantVacunasNombre(nombreVacuna) + vacunasTres.cantVacunasNombre(nombreVacuna);			
-	}
+	
 	/**
 	* Se inscribe una persona en lista de espera.
 	* Si la persona ya se encuentra inscripta o es menor de 18 aï¿½os, se debe
@@ -242,7 +243,7 @@ public class CentroVacunacion {
 			}
 			}
 			else{
-				throw new RuntimeException ("El paciente no esta inscripto o no tiene turno este día");}
+				throw new RuntimeException ("El paciente no esta inscripto o no tiene turno este dï¿½a");}
 			}
 		
 		
@@ -292,7 +293,7 @@ public class CentroVacunacion {
 	
 	private void retirarVacunasVencidas() {
 		vacunasDieciocho.actualizarVencidas();
-		vacunasTres.actualizarVencidas();
+		//vacunasTres.actualizarVencidas();
 	}
 	
 	private void generarPrioridad() {
@@ -377,7 +378,7 @@ public class CentroVacunacion {
 		return vacunasDieciocho;
 	}
 
-	public void setVacunasDiesiocho(Deposito vacunasDiesiocho) {
+	public void setVacunasDiesiocho(DepositoConVencidas vacunasDiesiocho) {
 		this.vacunasDieciocho = vacunasDiesiocho;
 	}
 

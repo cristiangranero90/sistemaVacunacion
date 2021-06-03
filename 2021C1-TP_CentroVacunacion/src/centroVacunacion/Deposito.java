@@ -1,58 +1,35 @@
 package centroVacunacion;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 public class Deposito {
 	
 	protected ArrayList<Vacuna> vacunas;
-	protected Map<String, Integer> vencidas;
 	protected int cantidad;
 	protected int temperatura;
-	private int vacunasVencidas;
+
+	public Deposito(int temperatura) {
 		
-	Deposito(int temperatura){
-		
+		vacunas = new ArrayList<>();
 		setCantidad(0);
 		setTemperatura(temperatura);
-		setVacunasVencidas(0);
-		vacunas = new ArrayList<Vacuna>();
-		vencidas = new HashMap<String, Integer>();
 		
 	}
-	
-	public void agregarVacunas(Vacuna vac, int cantidad) {
-		
-		//Fecha otra = new Fecha(); //Fecha de hoy
-		
-		for (int i = 0; i < cantidad; i++) {
-			
-<<<<<<< HEAD
-			Vacuna nueva = new Vacuna(tipo, this.temperatura, Fecha f);
-			
-			if (nueva.estaVencida()) {
-				vencidas.put(tipo, nueva);
-				setVencidas(getVencidas() + 1);
-			}
-			else {
-				vacunas.put(tipo, nueva);
-				setCantidad(getCantidad() + 1); 
-			}
-			
-=======
-			if (vacunas.add(vac)) {
-				setCantidad(getCantidad() + 1);
-			}					
-	}
-}
 	
 	public void agregarVacunas(Vacuna vac) {
 		
 		if(vacunas.add(vac)) {
 			setCantidad(getCantidad() + 1);
->>>>>>> branch 'master' of https://gitlab.com/cristiangranero/sisvacunacion
+
+		}
+	}
+	
+	public void agregarVacunas(Vacuna vac, int cantidad) {
+		
+		for (int i = 0; i<cantidad; i++) {
+			if (vacunas.add(vac)) {
+				setCantidad(getCantidad() + 1);
+			}			
 		}
 	}
 	
@@ -62,24 +39,7 @@ public class Deposito {
 			setCantidad(getCantidad() - 1);
 		}
 	}
-	
-	public void agregarVencida(Vacuna vac) {
-		if (vencidas.containsKey(vac.getNombre())) {
-			vencidas.replace(vac.getNombre(), vencidas.get(vac.getNombre()) + 1);
-			setVacunasVencidas(getVacunasVencidas() + 1);
-		}
-		else {
-			vencidas.put(vac.getNombre(), 1);
-		}
-		
-	}
-	//public void quitarVencida(Vacuna vac) {
-		
-	//	if (vencidas.remove(vac)) {
-	//		setVacunasVencidas(getVacunasVencidas() - 1);
-	//	}		
-	//}
-	
+
 	public int cantVacunasNombre(String nombre) {
 		int contador = 0;
 		
@@ -91,75 +51,42 @@ public class Deposito {
 		return contador;
 	}
 	
-	public void actualizarVencidas() {
-		
-		Iterator<Vacuna> iterador = vacunas.iterator();
-		//Fecha otra = new Fecha();
-		
-		while (iterador.hasNext()) {
-			
-			if (iterador.next().getNombre().equals("pfizer") ){
-				if(iterador.next().getIngreso().anterior(Fecha.hoy()));	{	
-					//Vacuna nueva = new Pfizer(iterador.next().getNombre() , iterador.next().getIngreso());
-					setVacunasVencidas(getVacunasVencidas() + 1);
-					agregarVencida(iterador.next());
-					quitarVacuna(iterador.next());
-					setCantidad(getCantidad()-1);
-				}
-			}
-			else if(iterador.next().getNombre().equals("moderna")) {
-				if(iterador.next().getIngreso().anterior(Fecha.hoy()));	{	
-					//Vacuna nueva = new Moderna(iterador.next().getNombre() , iterador.next().getIngreso());
-					setVacunasVencidas(getVacunasVencidas() + 1);
-					agregarVencida(iterador.next());
-					quitarVacuna(iterador.next());
-					setCantidad(getCantidad() - 1);
-				}
-			}
-		}
+	public int cantVacunas() {
+		return getCantidad();
 	}
 	
-	public int dameVencidas(String tipo) {
+	public boolean existeVacuna(Vacuna vac) {
 		
-		if (vencidas.containsKey(tipo)) {
-			return vencidas.get(tipo);	
-		}
-		else {
-			return 0;
-		}		
+		return vacunas.contains(vac);
 	}
 	
+	public int cantVacunas(String nombre) {
+		int contador = 0;
+		
+		for(Vacuna vac : vacunas) {
+			if (vac.getNombre().equals(nombre.toLowerCase())) {
+				contador++;
+			}
+		}
+		return contador;
+	}
 	
+	//Getters and Setters-------------------------------------------------------
+	
+	public ArrayList<Vacuna> getVacunas() {
+		return vacunas;
+	}
 
-	
-//Getters and setters ---------------------------------------------------
-	
-	public int cantVacunas() {		
-		return cantidad;
-	}
-	
-	public int cantVencidas() {		
-		return vencidas.size();
+	public void setVacunas(ArrayList<Vacuna> vacunas) {
+		this.vacunas = vacunas;
 	}
 
 	public int getCantidad() {
 		return cantidad;
 	}
 
-	public int getVacunasVencidas() {
-		return vacunasVencidas;
-	}
-
-	public void setVacunasVencidas(int vacunasVencidas) {
-		this.vacunasVencidas = vacunasVencidas;
-	}
-
 	public void setCantidad(int cantidad) {
-		
-		if (cantidad > 0) {
-			this.cantidad = cantidad;
-		}
-		
+		this.cantidad = cantidad;
 	}
 
 	public int getTemperatura() {
@@ -169,8 +96,6 @@ public class Deposito {
 	public void setTemperatura(int temperatura) {
 		this.temperatura = temperatura;
 	}
-
 	
-
 	
 }
