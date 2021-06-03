@@ -240,7 +240,11 @@ public class CentroVacunacion {
 					
 				
 			}
-			}}
+			}
+			else{
+				throw new RuntimeException ("El paciente no esta inscripto o no tiene turno este día");}
+			}
+		
 		
 		//Este ni puta idea mai fren
 	}
