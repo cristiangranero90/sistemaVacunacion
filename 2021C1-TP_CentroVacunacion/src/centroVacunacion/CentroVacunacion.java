@@ -85,6 +85,9 @@ public class CentroVacunacion {
 		
 			
 	}
+	public boolean estaInscripto(Persona p) {
+		return inscriptos.contains(p);
+	}
 	/**
 	* total de vacunas disponibles no vencidas sin distinci�n por tipo.
 	*/
@@ -110,9 +113,23 @@ public class CentroVacunacion {
 	*/
 	public void inscribirPersona(int dni, Fecha nacimiento, boolean tienePadecimientos, boolean esEmpleadoSalud) {
 		
-		inscriptos.add(new Persona(dni, nacimiento,tienePadecimientos, esEmpleadoSalud) );
+		Persona nueva = new Persona(dni, nacimiento,tienePadecimientos, esEmpleadoSalud) ;
 		
+		if(Fecha.diferenciaAnios(new Fecha(), nacimiento) >= 18 &&
+				!estaInscripto(nueva) && 
+				!estaEnReporte(nueva.getDni())) {			
+			inscriptos.add(nueva);
+		}
+		else {
+			throw new RuntimeException();
+		}		
 	}
+	
+	public boolean estaEnReporte(int dni) {
+
+		return reporte.containsKey(dni);
+	}
+
 	public void eliminarPersona(Persona per) {
 		inscriptos.remove(per);
 	}
@@ -124,8 +141,9 @@ public class CentroVacunacion {
 	public ArrayList<Integer> listaDeEspera(){
 		ArrayList<Integer>  lista = new ArrayList <Integer> ();
 		Iterator<Persona> iterador = inscriptos.iterator();
-		if (iterador.hasNext())
+		while (iterador.hasNext()) {
 			lista.add(iterador.next().getDni());
+		}			
 		return lista;
 	}
 	/**
