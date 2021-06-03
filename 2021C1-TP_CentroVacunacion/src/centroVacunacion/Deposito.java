@@ -23,7 +23,7 @@ public class Deposito {
 		
 		for (int i = 0; i < cantidad; i++) {
 			
-			Vacuna nueva = new Vacuna(tipo, getTemperatura(), Fecha f);
+			Vacuna nueva = new Vacuna(tipo, this.temperatura, Fecha f);
 			
 			if (nueva.estaVencida()) {
 				vencidas.put(tipo, nueva);
