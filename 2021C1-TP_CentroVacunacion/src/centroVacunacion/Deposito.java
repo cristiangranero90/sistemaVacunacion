@@ -1,13 +1,14 @@
 package centroVacunacion;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 //import java.util.HashMap;
 import java.util.Iterator;
 
 public class Deposito {
 	
 	protected ArrayList<Vacuna> vacunas;
-	protected ArrayList<Vacuna> vencidas;
+	protected HashMap<String, Integer> vencidas;
 	protected int cantidad;
 	protected int temperatura;
 	private int vacunasVencidas;
@@ -18,7 +19,7 @@ public class Deposito {
 		setTemperatura(temperatura);
 		setVacunasVencidas(0);
 		vacunas = new ArrayList<Vacuna>();
-		vencidas = new ArrayList<Vacuna>();
+		vencidas = new HashMap<>();
 		
 	}
 	
@@ -75,22 +76,26 @@ public class Deposito {
 	public void actualizarVencidas() {
 		
 		Iterator<Vacuna> iterador = vacunas.iterator();
-		Fecha otra = new Fecha();
+		//Fecha otra = new Fecha();
 		
 		while (iterador.hasNext()) {
 			
 			if (iterador.next().getNombre().equals("pfizer") ){
-				if(iterador.next().getIngreso().posterior(otra));	{	
-					Vacuna nueva = new Pfizer(iterador.next().getNombre() , iterador.next().getIngreso());
-					agregarVencida(nueva);
+				if(iterador.next().getIngreso().anterior(Fecha.hoy()));	{	
+					//Vacuna nueva = new Pfizer(iterador.next().getNombre() , iterador.next().getIngreso());
+					setVacunasVencidas(getVacunasVencidas() + 1);
+					agregarVencida(iterador.next());
 					quitarVacuna(iterador.next());
+					setCantidad(getCantidad()-1);
 				}
 			}
 			else if(iterador.next().getNombre().equals("moderna")) {
-				if(iterador.next().getIngreso().posterior(otra));	{	
-					Vacuna nueva = new Moderna(iterador.next().getNombre() , iterador.next().getIngreso());
-					agregarVencida(nueva);
+				if(iterador.next().getIngreso().anterior(Fecha.hoy()));	{	
+					//Vacuna nueva = new Moderna(iterador.next().getNombre() , iterador.next().getIngreso());
+					setVacunasVencidas(getVacunasVencidas() + 1);
+					agregarVencida(iterador.next());
 					quitarVacuna(iterador.next());
+					setCantidad(getCantidad() - 1);
 				}
 			}
 		}

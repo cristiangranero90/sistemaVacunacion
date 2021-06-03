@@ -9,8 +9,29 @@ public class Moderna extends Vacuna {
 		super(nombre, fi);
 		this.tiempoDeVencimiento=60;
 		
-		super.ingreso.avanzarDias(tiempoDeVencimiento);
+		fi.avanzarDias(getTiempoDeVencimiento());
+		
+		super.setIngreso(fi);
+		
 				
 	}
+
+	public Fecha getVencimiento() {
+		return vencimiento;
+	}
+
+	public void setVencimiento(Fecha vencimiento) {
+		this.vencimiento = vencimiento;
+	}
+
+	public int getTiempoDeVencimiento() {
+		return tiempoDeVencimiento;
+	}
+
+	public void setTiempoDeVencimiento(int tiempoDeVencimiento) {
+		this.tiempoDeVencimiento = tiempoDeVencimiento;
+	}
+	
+	
 	
 }

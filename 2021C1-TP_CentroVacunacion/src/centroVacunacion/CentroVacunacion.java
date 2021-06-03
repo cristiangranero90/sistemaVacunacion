@@ -163,40 +163,46 @@ public class CentroVacunacion {
 	*/
 	public void generarTurnos(Fecha fechaInicial) {
 		
-		retirarTurnosVencidos(fechaInicial); 	
-		generarPrioridad();
-		retirarVacunasVencidas();
+		if (fechaInicial.posterior(Fecha.hoy())) {
+			retirarTurnosVencidos(fechaInicial); 	
+			generarPrioridad();
+			retirarVacunasVencidas();
 		
-		Fecha hoy = new Fecha();
-		int porDia;
-		boolean bandera = true;
+			Fecha hoy = new Fecha();
+			int porDia;
+			boolean bandera = true;
 		
 		
-		//Falta armar los turnos
-		Iterator<Persona> iterador = inscriptos.iterator();
+			//Falta armar los turnos
+			Iterator<Persona> iterador = inscriptos.iterator();
 		
-		 while(bandera) {
+			while(bandera) {
 			 
-			porDia = getCapacidad(); //Renueva
+				porDia = getCapacidad(); //Renueva
 			
-			while (iterador.hasNext() && porDia>0) {
+				while (iterador.hasNext() && porDia>0) {
 				
-				Vacuna nueva = dameVacunaPorPrioridad(iterador.next().getPrioridad());
+					Vacuna nueva = dameVacunaPorPrioridad(iterador.next().getPrioridad());
 			
-				if (nueva!=null && vacunasDisponibles() != 0 ) {
-					agendarTurno(nueva, hoy, iterador.next());	
-					//Falta eliminar a la persona??? o lo hace vacunarInscriptos???
-					eliminarPersona(iterador.next());
-					porDia--;
+					if (nueva!=null && vacunasDisponibles() != 0 ) {
+						agendarTurno(nueva, hoy, iterador.next());	
+						//Falta eliminar a la persona??? o lo hace vacunarInscriptos???
+						eliminarPersona(iterador.next());
+						porDia--;
+					}
+					else {
+						bandera = false;
+					}
 				}
-				else {
-					bandera = false;
-				}
+				hoy.avanzarUnDia();			
+				//NO sirve, revisar el ciclo while
+				//COmplica
 			}
-			hoy.avanzarUnDia();			
-			//NO sirve, revisar el ciclo while
-			//COmplica
 		}
+		else {
+			throw new RuntimeException();
+		}
+		
 	}
 	/**
 	* Devuelve una lista con los dni de las personas que tienen turno asignado
@@ -247,7 +253,7 @@ public class CentroVacunacion {
 	
 	private void retirarTurnosVencidos(Fecha f) {
 		Iterator<Turno> iterador = turnos.iterator();
-		if (iterador.hasNext() && iterador.next().getFecha().compareTo(f)<0) {			
+		while (iterador.hasNext() && iterador.next().getFecha().compareTo(f)<0) {			
 			
 			if(iterador.next().getVacuna().getNombre().equals("pfizer") || 
 					iterador.next().getVacuna().getNombre().equals("moderna")) {
