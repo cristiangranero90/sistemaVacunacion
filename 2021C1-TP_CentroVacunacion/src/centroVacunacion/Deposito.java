@@ -37,11 +37,11 @@ public class Deposito implements Iterable<Vacuna>{
 		}
 	}
 	
-	public void quitarVacuna(Vacuna nueva) {
+	public boolean quitarVacuna(Vacuna nueva) {
 		//Vacuna nueva = new Vacuna(tipo, new Fecha());
-		if(vacunas.remove(nueva)) {
-			setCantidad(getCantidad() - 1);
-		}
+		
+		setCantidad(getCantidad() - 1);
+		return vacunas.remove(nueva);
 	}
 
 	public int cantVacunasNombre(String nombre) {

@@ -5,13 +5,15 @@ public class Vacuna {
 	//private int cantidad;
 	Fecha ingreso;
 	String nombre;
+	//boolean asignada;
 	//private int vencidas;
 	//boolean vencida;
 	
-	public Vacuna() {
+	public Vacuna(Vacuna vac) {
 		
-		this.nombre="";
+		this.nombre=vac.getNombre();
 		this.ingreso=Fecha.hoy();
+		
 	}
 	
 	public Vacuna (String nombre, Fecha fi) {
@@ -73,6 +75,7 @@ public class Vacuna {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+	
 
 	//public boolean isVencida() {
 		//return vencida;
@@ -81,6 +84,7 @@ public class Vacuna {
 	//public void setVencida(boolean vencida) {
 		//this.vencida = vencida;
 	//}
+
 
 	@Override
 	public boolean equals(Object obj) {

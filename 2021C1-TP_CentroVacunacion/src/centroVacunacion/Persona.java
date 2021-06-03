@@ -71,15 +71,18 @@ public class Persona {
 	}
 	
 	public void esPrioridad () {
+		
+		int prio = 4;
 		if (personalSalud)
-			this.prioridad=1;
-
+			prio = Math.min(prio, 1);
 		if(enfermedadPre)
-			this.prioridad=2;
+			prio = Math.min(prio, 2);
 		if (mayorDe60())
-			this.prioridad=3;
-		else
-			this.prioridad=4;
+			prio = Math.min(prio, 3);
+		
+		
+		
+		this.prioridad = prio;
 	}
 	
 	public Persona damePersona (Persona persona) throws Exception{
@@ -154,7 +157,7 @@ public class Persona {
 		if (getClass() != obj.getClass())
 			return false;
 		Persona other = new Persona((Persona) obj);
-		if (dni != other.dni)
+		if (this.dni != other.dni)
 			return false;
 		return true;
 	}
