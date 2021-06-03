@@ -1,4 +1,6 @@
-ue, cuapackage centroVacunacion;
+package centroVacunacion;
+
+//ue, cuapackage centroVacunacion;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -77,7 +79,7 @@ public class Fecha implements Comparable<Fecha> {
 	}
 	
 	public void avanzarDias(int dias) {
-		otraFecha = otraFecha.plusDays(dias);
+		fecha = fecha.plusDays(dias);
 	}
 	
 

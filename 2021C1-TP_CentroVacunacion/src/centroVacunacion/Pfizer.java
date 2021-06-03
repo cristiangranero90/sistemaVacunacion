@@ -1,18 +1,50 @@
 package centroVacunacion;
 
 public class Pfizer extends Vacuna {
-	Fecha vencimiento;
-	int espacioEnHeladera;
-	int tiempoDeVencimiento;
+	public Fecha vencimiento;
+	//int espacioEnHeladera;
+	private final int tiempoDeVencimiento;
 	
-	public Pfizer (String nombre, int cant, Fecha fi) {
-		super(nombre,cant,fi);
+	public Pfizer (String nombre, Fecha fi) {
+		
+		super(nombre, fi);
 		this.tiempoDeVencimiento=30;
+		fi.avanzarDias(tiempoDeVencimiento);
+		
+		super.setIngreso(fi);
+		
+		//vencimiento = fi;
+			
+		
+		//setVencimiento(fi.avanzarDias(getTiempoDeVencimiento()));
+		
 		
 	}
-	
-	public void asignarVencimiento(int venc) {
-		//this.vencimiento=super.ingreso.avanzarDias(venc);
+
+	public Fecha getVencimiento() {
+		return vencimiento;
 	}
+
+	public void setVencimiento(Fecha vencimiento) {
+		this.vencimiento = vencimiento;
+	}
+
+	public int getTiempoDeVencimiento() {
+		return tiempoDeVencimiento;
+	}
+	
+	//public void asignarVencimiento() {
+		//this.vencimiento=super.ingreso.avanzarDias(venc);
+	//}
+
+	
+
+	
+
+	
+
+	//public void setTiempoDeVencimiento(int tiempoDeVencimiento) {
+		//this.tiempoDeVencimiento = tiempoDeVencimiento;
+	//}
 
 }
