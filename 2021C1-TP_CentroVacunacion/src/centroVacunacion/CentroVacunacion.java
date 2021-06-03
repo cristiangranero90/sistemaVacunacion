@@ -247,8 +247,14 @@ public class CentroVacunacion {
 	* - valor: cantidad de vacunas vencidas conocidas hasta el momento.
 	*/
 	public Map<String, Integer> reporteVacunasVencidas(){
-		Map<String, Integer> lista= new HashMap <String,Integer> ();
-		return lista;
+		
+		HashMap<String, Integer> nuevo = new HashMap<>();
+		
+		nuevo.put("pfizer", vacunasDieciocho.dameVencidas("pfizer"));
+		nuevo.put("moderna", vacunasDieciocho.dameVencidas("moderna"));
+		
+		return nuevo;		
+		
 	}
 	
 	private void retirarTurnosVencidos(Fecha f) {
@@ -268,6 +274,7 @@ public class CentroVacunacion {
 		}
 	}
 		
+	
 	private void retirarVacunasVencidas() {
 		vacunasDieciocho.actualizarVencidas();
 		vacunasTres.actualizarVencidas();

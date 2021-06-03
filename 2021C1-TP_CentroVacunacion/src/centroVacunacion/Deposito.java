@@ -2,13 +2,13 @@ package centroVacunacion;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-//import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class Deposito {
 	
 	protected ArrayList<Vacuna> vacunas;
-	protected HashMap<String, Integer> vencidas;
+	protected Map<String, Integer> vencidas;
 	protected int cantidad;
 	protected int temperatura;
 	private int vacunasVencidas;
@@ -19,7 +19,7 @@ public class Deposito {
 		setTemperatura(temperatura);
 		setVacunasVencidas(0);
 		vacunas = new ArrayList<Vacuna>();
-		vencidas = new HashMap<>();
+		vencidas = new HashMap<String, Integer>();
 		
 	}
 	
@@ -50,17 +50,21 @@ public class Deposito {
 	}
 	
 	public void agregarVencida(Vacuna vac) {
-		if (vencidas.add(vac)) {
+		if (vencidas.containsKey(vac.getNombre())) {
+			vencidas.replace(vac.getNombre(), vencidas.get(vac.getNombre()) + 1);
 			setVacunasVencidas(getVacunasVencidas() + 1);
+		}
+		else {
+			vencidas.put(vac.getNombre(), 1);
 		}
 		
 	}
-	public void quitarVencida(Vacuna vac) {
+	//public void quitarVencida(Vacuna vac) {
 		
-		if (vencidas.remove(vac)) {
-			setVacunasVencidas(getVacunasVencidas() - 1);
-		}		
-	}
+	//	if (vencidas.remove(vac)) {
+	//		setVacunasVencidas(getVacunasVencidas() - 1);
+	//	}		
+	//}
 	
 	public int cantVacunasNombre(String nombre) {
 		int contador = 0;
@@ -99,6 +103,16 @@ public class Deposito {
 				}
 			}
 		}
+	}
+	
+	public int dameVencidas(String tipo) {
+		
+		if (vencidas.containsKey(tipo)) {
+			return vencidas.get(tipo);	
+		}
+		else {
+			return 0;
+		}		
 	}
 	
 	
@@ -143,7 +157,6 @@ public class Deposito {
 	}
 
 	
-
 
 	
 }
