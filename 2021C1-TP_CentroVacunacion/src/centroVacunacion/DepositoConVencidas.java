@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class DepositoConVencidas extends Deposito implements Iterable<Vacuna>{
+
+public class DepositoConVencidas extends Deposito {
 	
 	//protected ArrayList<Vacuna> vacunas;
 	protected Map<String, Integer> vencidas;
@@ -145,14 +146,4 @@ public class DepositoConVencidas extends Deposito implements Iterable<Vacuna>{
 		this.temperatura = temperatura;
 	}
 
-	@Override
-	public Iterator<Vacuna> iterator() {
-		
-		// TODO Auto-generated method stub
-		return vacunas.iterator();
-	}
-
-	
-
-	
 }

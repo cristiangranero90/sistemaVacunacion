@@ -3,11 +3,12 @@ package centroVacunacion;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Deposito implements Iterable<Vacuna>{
+public class Deposito  {
 	
 	protected ArrayList<Vacuna> vacunas;
 	protected int cantidad;
 	protected int temperatura;
+	//private int posicion;
 
 	public Deposito(int temperatura) {
 		
@@ -37,11 +38,11 @@ public class Deposito implements Iterable<Vacuna>{
 		}
 	}
 	
-	public boolean quitarVacuna(Vacuna nueva) {
+	public void quitarVacuna(Vacuna nueva) {
 		//Vacuna nueva = new Vacuna(tipo, new Fecha());
 		
 		setCantidad(getCantidad() - 1);
-		return vacunas.remove(nueva);
+		vacunas.remove(nueva);
 	}
 
 	public int cantVacunasNombre(String nombre) {
@@ -101,11 +102,9 @@ public class Deposito implements Iterable<Vacuna>{
 		this.temperatura = temperatura;
 	}
 
-	@Override
-	public Iterator<Vacuna> iterator() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
+
+//--------------------------------Iterable / Iterator ----------------------------
 	
 	
 }

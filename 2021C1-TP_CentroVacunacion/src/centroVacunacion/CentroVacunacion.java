@@ -187,7 +187,7 @@ public class CentroVacunacion {
 				while (iterador.hasNext() && porDia>0 && vacunasDisponibles()>0) {
 				
 					Vacuna nueva = dameVacunaPorPrioridad(iterador.next().getPrioridad());
-					System.out.println(iterador.next().getPrioridad());
+					//System.out.println(iterador.next().getPrioridad());
 					System.out.println(nueva!=null);
 					
 					if (nueva!=null && vacunasDisponibles() != 0 ) {
@@ -210,8 +210,37 @@ public class CentroVacunacion {
 		else {
 			throw new RuntimeException();
 		}
+		//retirarAsignadas();
 		
 	}
+	private void retirarAsignadas() {
+		
+		Iterator<Vacuna> iterador = vacunasTres.getVacunas().iterator();
+		
+		while (iterador.hasNext()) {
+			
+			Vacuna nueva = iterador.next();
+			
+			if (nueva.isAsignada()) {
+				
+				vacunasTres.quitarVacuna(nueva);
+			}
+			
+		}
+		
+		Iterator<Vacuna> otroIterador = vacunasDieciocho.getVacunas().iterator();
+		
+		while(otroIterador.hasNext()) {
+			
+			Vacuna nueva = otroIterador.next();
+			
+			if(nueva.isAsignada()) {
+				
+				vacunasDieciocho.quitarVacuna(nueva);
+			}
+		}
+	}
+
 	/**
 	* Devuelve una lista con los dni de las personas que tienen turno asignado
 	* para la fecha pasada por par�metro.
@@ -303,19 +332,20 @@ public class CentroVacunacion {
 		//vacunasTres.actualizarVencidas();
 	}
 	
-	
-	private Vacuna dameVacunaPorPrioridad(int prio) {
+private Vacuna dameVacunaPorPrioridad(int prio) {
 		
 		//System.out.println(prio);
 		
 		if (prio==2 && vacunasDisponibles() > 0 && vacunasDieciocho != null) {
 			
-			Iterator<Vacuna> todas = vacunasDieciocho.iterator();
+			Iterator<Vacuna> todas = vacunasDieciocho.getVacunas().iterator();
 						
 			while(todas.hasNext() && todas != null) {
 				if (todas.next().getNombre().equals("pfizer")) {
 					Vacuna nueva = todas.next();
 					//vacunasDieciocho.quitarVacuna(todas.next());
+					todas.next().setAsignada(true);
+					todas.remove();
 					return nueva;
 				}
 			}
@@ -323,14 +353,16 @@ public class CentroVacunacion {
 			
 		else if (prio==2 && vacunasDisponibles() > 0 && vacunasTres != null) {
 			
-			Iterator<Vacuna> tres = vacunasTres.iterator();
+			Iterator<Vacuna> tres = vacunasTres.getVacunas().iterator();
 			
 			while (tres.hasNext() && tres != null) {
 				if (tres.next().getNombre().equals("sputnik")) {
-					Vacuna nueva = new Vacuna();
-					nueva = tres.next();
+					//Vacuna nueva = new Vacuna();
+					//nueva = tres.next();
 					//vacunasTres.quitarVacuna(tres.next());
-					return nueva;
+					tres.next().setAsignada(true);
+					tres.remove();
+					return tres.next();
 				}
 			}
 		}
@@ -338,28 +370,32 @@ public class CentroVacunacion {
 		
 		else if (vacunasDisponibles() > 0 && vacunasDieciocho != null) {
 			
-			Iterator<Vacuna> ocho = vacunasDieciocho.iterator();
+			Iterator<Vacuna> ocho = vacunasDieciocho.getVacunas().iterator();
 			
 			while(ocho.hasNext() && ocho != null) {
 				if (!ocho.next().getNombre().equals("pfizer")) {
-					Vacuna nueva = new Vacuna();
-					nueva = ocho.next();
+					//Vacuna nueva = new Vacuna();
+					//nueva = ocho.next();
 					//vacunasDieciocho.quitarVacuna(ocho.next());
-					return nueva;
+					ocho.next().setAsignada(true);
+					ocho.remove();
+					return ocho.next();
 				}
 			}
 		}
 			
 		if (vacunasDisponibles() > 0 && vacunasDieciocho != null) {
 			
-			Iterator<Vacuna> tresS = vacunasTres.iterator();
+			Iterator<Vacuna> tresS = vacunasTres.getVacunas().iterator();
 			
 			while (tresS != null && tresS.hasNext() ) {
 				if (!tresS.next().getNombre().equals("sputnik")) {
-					Vacuna nueva = new Vacuna();
-					nueva = tresS.next();
+					//Vacuna nueva = new Vacuna();
+					//nueva = tresS.next();
 					//vacunasTres.quitarVacuna(tresS.next());
-					return nueva;
+					tresS.next().setAsignada(true);
+					tresS.remove();
+					return tresS.next();
 				}
 			}
 		}	
