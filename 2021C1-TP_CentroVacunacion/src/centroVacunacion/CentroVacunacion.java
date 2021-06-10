@@ -38,7 +38,7 @@ public class CentroVacunacion {
 				
 		Turno nuevo = new Turno(new Vacuna(vac), new Fecha(f), new Persona (per));
 		if (!this.turnos.contains(nuevo)) {
-			System.out.println(nuevo.getPersona().getDni());
+			//System.out.println(nuevo.getPersona().getDni());
 			this.getTurnos().add(nuevo);
 		}
 				
@@ -64,19 +64,19 @@ public class CentroVacunacion {
 				setStock(getStock() + cantidad);
 			}
 			else if (nombre.equals("moderna")) {
-				vacunasDieciocho.agregarVacunas(new Moderna (nombreVacuna, fechaIngreso), cantidad);
+				vacunasDieciocho.agregarVacunas(new Moderna (nombre, fechaIngreso), cantidad);
 				setStock(getStock() + cantidad);
 			}
 			else if (nombre.equals("pfizer")) {
-				vacunasDieciocho.agregarVacunas(new Pfizer (nombreVacuna, fechaIngreso), cantidad);
+				vacunasDieciocho.agregarVacunas(new Pfizer (nombre, fechaIngreso), cantidad);
 				setStock(getStock() + cantidad);
 			}
 			else if (nombre.equals("sinopharm")) {
-				vacunasTres.agregarVacunas(new Sinopharm (nombreVacuna, fechaIngreso) , cantidad);
+				vacunasTres.agregarVacunas(new Sinopharm (nombre, fechaIngreso) , cantidad);
 				setStock(getStock() + cantidad);
 			}
 			else if (nombre.equals("astrazeneca")) {
-				vacunasTres.agregarVacunas(new Astrazeneca (nombreVacuna, fechaIngreso), cantidad);
+				vacunasTres.agregarVacunas(new Astrazeneca (nombre, fechaIngreso), cantidad);
 				setStock(getStock() + cantidad);
 			}
 			else {
@@ -101,8 +101,10 @@ public class CentroVacunacion {
 	}
 	
 	public int vacunasDisponibles(String nombre) {
-		vacunasDieciocho.actualizarVencidas();		
-		return vacunasDieciocho.cantVacunas(nombre) + vacunasTres.cantVacunas(nombre);
+		//System.out.println(Fecha.hoy().toString());
+		vacunasDieciocho.actualizarVencidas();	
+		
+		return vacunasDieciocho.cantVacunas(nombre.toLowerCase()) + vacunasTres.cantVacunas(nombre.toLowerCase());
 	}
 	/**
 	* total de vacunas disponibles no vencidas que coincida con el nombre de
@@ -243,16 +245,16 @@ public class CentroVacunacion {
 	public void vacunarInscripto(int dni, Fecha fechaVacunacion) {
 		
 		for (Turno tur: this.getTurnos()) {
-			System.out.println(tur.getPersona().getDni());
+			//System.out.println(tur.getPersona().getDni());
 			if(tur.getPersona().getDni()==dni && tur.getFecha().equals(fechaVacunacion)) {
-				tur.getPersona().setEstaVacunado(true);
 				
-				if(tur.getVacuna().getNombre()=="Moderna" || tur.getVacuna().getNombre()=="Pfizer") {
-					vacunasDieciocho.quitarVacuna(tur.getVacuna());
-				}
-				else { 
-					vacunasTres.quitarVacuna(tur.getVacuna());
-				}
+				tur.getPersona().setEstaVacunado(true);
+				agregarAlReporte(tur.getPersona().getDni(), tur.getVacuna().getNombre());
+				vacunasDieciocho.quitarVacuna(tur.getVacuna());
+				 
+				//agregarAlReporte(tur.getPersona().getDni(), tur.getVacuna().getNombre());
+				//vacunasTres.quitarVacuna(tur.getVacuna());
+			
 			}
 			else{
 				throw new RuntimeException ("El paciente no esta inscripto o no tiene turno este d�a");}
@@ -275,6 +277,8 @@ public class CentroVacunacion {
 	* - valor: cantidad de vacunas vencidas conocidas hasta el momento.
 	*/
 	public Map<String, Integer> reporteVacunasVencidas(){
+		
+		vacunasDieciocho.actualizarVencidas();
 		
 		HashMap<String, Integer> nuevo = new HashMap<>();
 		
@@ -371,9 +375,9 @@ private Vacuna dameVacunaPorPrioridad(int prio) {
 		return nueva;		
 	}
 	
-	public void agregarAlReporte(int dni, Vacuna vac ) {
+	public void agregarAlReporte(int dni, String vacuna ) {
 		
-		reporte.put((Integer) dni, vac.getNombre());
+		reporte.put((Integer) dni, vacuna);
 	}
 
 	//Getters and Setters----------------------------------------------------------------------------

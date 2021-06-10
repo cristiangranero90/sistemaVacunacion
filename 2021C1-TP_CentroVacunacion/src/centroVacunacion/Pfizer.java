@@ -9,16 +9,10 @@ public class Pfizer extends Vacuna {
 		
 		super(nombre, fi);
 		this.tiempoDeVencimiento=30;
-		fi.avanzarDias(tiempoDeVencimiento);
 		
-		super.setIngreso(fi);
-		
-		//vencimiento = fi;
-			
-		
-		//setVencimiento(fi.avanzarDias(getTiempoDeVencimiento()));
-		
-		
+		Fecha otra = new Fecha(fi);
+		otra.avanzarDias(getTiempoDeVencimiento());				
+		super.setIngreso(otra);		
 	}
 
 	public Fecha getVencimiento() {
@@ -33,18 +27,5 @@ public class Pfizer extends Vacuna {
 		return tiempoDeVencimiento;
 	}
 	
-	//public void asignarVencimiento() {
-		//this.vencimiento=super.ingreso.avanzarDias(venc);
-	//}
-
-	
-
-	
-
-	
-
-	//public void setTiempoDeVencimiento(int tiempoDeVencimiento) {
-		//this.tiempoDeVencimiento = tiempoDeVencimiento;
-	//}
 
 }

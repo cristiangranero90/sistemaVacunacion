@@ -31,11 +31,10 @@ public class Deposito  {
 	public void agregarVacunas(Vacuna vac, int cantidad) {
 		
 		for (int i = 0; i<cantidad; i++) {
-			vacunas.add(vac);
-				setCantidad(getCantidad() + 1);
-			//	System.out.println("Entro a vacunasM");
-				
+			vacunas.add(vac);			
+			//	System.out.println("Entro a vacunasM");				
 		}
+		setCantidad(getCantidad() + cantidad);
 	}
 	
 	public void quitarVacuna(Vacuna nueva) {
@@ -48,7 +47,8 @@ public class Deposito  {
 	public int cantVacunasNombre(String nombre) {
 		int contador = 0;
 		
-		for(Vacuna vac : vacunas) {
+		for(Vacuna vac : this.getVacunas()) {
+			
 			if (vac.getNombre().equals(nombre.toLowerCase())) {
 				contador++;
 			}
@@ -68,7 +68,7 @@ public class Deposito  {
 	public int cantVacunas(String nombre) {
 		int contador = 0;
 		
-		for(Vacuna vac : vacunas) {
+		for(Vacuna vac : getVacunas()) {
 			if (vac.getNombre().equals(nombre.toLowerCase())) {
 				contador++;
 			}
