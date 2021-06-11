@@ -69,12 +69,6 @@ public class Vacuna {
 		this.ingreso = ingreso;
 	}
 
-	@Override
-	public String toString() {
-		return "Vacuna [conservacion=" + conservacion + ", ingreso=" + ingreso + ", nombre=" + nombre + ", asignada="
-				+ asignada + ", vencida=" + vencida + "]";
-	}
-
 	public String getNombre() {
 		return nombre;
 	}

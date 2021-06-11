@@ -5,12 +5,7 @@ import java.util.ArrayList;
 
 public class Deposito  {
 	
-	@Override
-	public String toString() {
-		return "Deposito [vacunas=" + vacunas + ", cantidad=" + cantidad + ", temperatura=" + temperatura + "]";
-	}
-
-	public ArrayList<Vacuna> vacunas;
+	protected ArrayList<Vacuna> vacunas;
 	protected int cantidad;
 	protected int temperatura;
 	//private int posicion;
@@ -36,15 +31,8 @@ public class Deposito  {
 	public void agregarVacunas(Vacuna vac, int cantidad) {
 		
 		for (int i = 0; i<cantidad; i++) {
-<<<<<<< HEAD
-			vacunas.add(vac);
-		this.cantidad=this.cantidad+cantidad;
-			//	System.out.println("Entro a vacunasM");
-				
-=======
 			vacunas.add(vac);			
 			//	System.out.println("Entro a vacunasM");				
->>>>>>> branch 'master' of https://gitlab.com/cristiangranero/sisvacunacion
 		}
 		setCantidad(getCantidad() + cantidad);
 	}
@@ -70,7 +58,6 @@ public class Deposito  {
 	
 	public int cantVacunas() {
 		return vacunas.size();
-		
 	}
 	
 	public boolean existeVacuna(Vacuna vac) {

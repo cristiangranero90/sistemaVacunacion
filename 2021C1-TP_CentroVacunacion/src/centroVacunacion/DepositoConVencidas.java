@@ -113,9 +113,6 @@ public class DepositoConVencidas extends Deposito {
 	
 //Getters and setters ---------------------------------------------------
 	
-	public int cantVacunas() {		
-		return cantidad;
-	}
 	
 	public int cantVencidas() {		
 		return vencidas.size();

@@ -97,7 +97,7 @@ public class CentroVacunacion {
 	public int vacunasDisponibles() {	
 		vacunasDieciocho.actualizarVencidas();
 		//vacunasTres.actualizarVencidas();
-		return vacunasDieciocho.cantVacunas() + vacunasTres.cantVacunas();
+		return getStock();
 	}
 	
 	public int vacunasDisponibles(String nombre) {
@@ -320,28 +320,8 @@ public class CentroVacunacion {
 	}
 	
 private Vacuna dameVacunaPorPrioridad(int prio) {
+	//Sacar 	eliminar vacuna
 		
-<<<<<<< HEAD
-		Vacuna nueva = null;
-		boolean tengoVacuna = false;
-		
-		if (vacunasDieciocho.cantVacunas() > 0) {
-			
-			Iterator<Vacuna> ite = vacunasDieciocho.getVacunas().iterator();
-			
-			while (!tengoVacuna && ite.hasNext()) {
-				
-				Vacuna otra = ite.next();
-				
-				if (prio == 2 ) {
-					
-					if (otra.getNombre().equals("pfizer")) {
-						
-						nueva = otra;
-						//otra.setAsignada(true);
-						tengoVacuna = true;
-						vacunasDieciocho.quitarVacuna(otra);
-=======
 		boolean tengoVacuna = false;
 		Vacuna nueva = null;
 		
@@ -359,56 +339,10 @@ private Vacuna dameVacunaPorPrioridad(int prio) {
 						
 						nueva = vacunaModi; tengoVacuna = true; ite.remove();
 						
->>>>>>> 052216baffa339298edf36a4d251d08529d71b15
 					}
 				}
 				else {
 					
-<<<<<<< HEAD
-					if (!otra.getNombre().equals("pfizer")) {
-						
-						nueva = otra;
-						//otra.setAsignada(true);
-						tengoVacuna = true;
-						vacunasDieciocho.quitarVacuna(otra);
-					}
-				}
-			}
-			
-		}
-		if (vacunasTres.cantVacunas() > 0 && !tengoVacuna) {
-			
-			Iterator<Vacuna> ite = vacunasTres.getVacunas().iterator();
-			
-			while (!tengoVacuna && ite.hasNext()) {
-				
-				Vacuna otra = ite.next();
-				
-				if (prio == 2) {
-					
-					if (otra.getNombre().equals("sputnik")) {
-						
-						nueva = otra;
-						//otra.setAsignada(true);
-						tengoVacuna = true;
-						vacunasTres.quitarVacuna(otra);
-					}
-				}
-				else {
-					if (!otra.getNombre().equals("pfizer")) {
-						
-						nueva = otra;
-						//otra.setAsignada(true);
-						tengoVacuna = true;
-						vacunasTres.quitarVacuna(otra);
-					}
-					
-				}
-			}
-		}
-		return nueva;
-		
-=======
 					//if (!vacunaModi.getNombre().equals("pfizer")) {
 						
 						nueva = vacunaModi; tengoVacuna = true; ite.remove();
@@ -440,7 +374,6 @@ private Vacuna dameVacunaPorPrioridad(int prio) {
 			}
 		}
 		return nueva;		
->>>>>>> 052216baffa339298edf36a4d251d08529d71b15
 	}
 	
 	public void agregarAlReporte(int dni, String vacuna ) {
@@ -520,12 +453,6 @@ private Vacuna dameVacunaPorPrioridad(int prio) {
 
 	public void setStock(int stock) {
 		this.stock = stock;
-	}
-
-	@Override
-	public String toString() {
-		return "CentroVacunacion [capacidad=" + capacidad + ", nombre=" + nombre + ", turnos=" + turnos
-				+ ", inscriptos=" + inscriptos + ", reporte=" + reporte + ", stock=" + stock + "]";
 	}
 	
 
