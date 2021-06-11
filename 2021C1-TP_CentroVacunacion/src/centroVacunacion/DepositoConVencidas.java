@@ -28,19 +28,14 @@ public class DepositoConVencidas extends Deposito {
 		//Fecha otra = new Fecha(); //Fecha de hoy		
 		for (int i = 0; i < cantidad; i++) {
 			//Vacuna nueva = new Vacuna(tipo, this.temperatura, Fecha f);			
-			if (vac.ingreso.posterior(Fecha.hoy())) {
-				agregarVencida(vac);
-				setVacunasVencidas(getVacunasVencidas() + 1);
-			}
-			else {
-				super.agregarVacunas(vac);
-			}			
+			agregarVacunas(vac);
 		}
+		setCantidad(getCantidad() + cantidad);
 	}
 	
 	public void agregarVacunas(Vacuna vac) {
 		
-		super.agregarVacunas(vac);
+		super.agregarVacunas(new Vacuna(vac));
 	}
 	
 	public void quitarVacuna(Vacuna nueva) {
@@ -50,6 +45,7 @@ public class DepositoConVencidas extends Deposito {
 	}
 	
 	public void agregarVencida(Vacuna vac) {
+		
 		if (vencidas.containsKey(vac.getNombre())) {
 			vencidas.replace(vac.getNombre(), vencidas.get(vac.getNombre()) + 1);
 			setVacunasVencidas(getVacunasVencidas() + 1);
@@ -69,27 +65,34 @@ public class DepositoConVencidas extends Deposito {
 	
 	public void actualizarVencidas() {
 		
-		Iterator<Vacuna> iterador = vacunas.iterator();
+		Iterator<Vacuna> iterador = super.getVacunas().iterator();
 		//Fecha otra = new Fecha();
+		System.out.println("empieza");
 		
 		while (iterador.hasNext()) {
+			Vacuna otra = iterador.next();
+			//System.out.println(Fecha.hoy().toString());
+
+			System.out.println("while");
 			
-			if (iterador.next().getNombre().equals("pfizer") ){
-				if(iterador.next().getIngreso().anterior(Fecha.hoy()));	{	
+			if (otra.getNombre().equals("pfizer") ){
+				if(otra.getIngreso().anterior(Fecha.hoy()));	{	
 					//Vacuna nueva = new Pfizer(iterador.next().getNombre() , iterador.next().getIngreso());
 					setVacunasVencidas(getVacunasVencidas() + 1);
-					agregarVencida(iterador.next());
-					super.quitarVacuna(iterador.next());
+					agregarVencida(new Vacuna(otra));
+					iterador.remove();
 					super.setCantidad(getCantidad()-1);
+					System.out.println("pfizer");
 				}
 			}
-			else if(iterador.next().getNombre().equals("moderna")) {
-				if(iterador.next().getIngreso().anterior(Fecha.hoy()));	{	
+			else if(otra.getNombre().equals("moderna")) {
+				if(otra.getIngreso().anterior(Fecha.hoy()));	{	
 					//Vacuna nueva = new Moderna(iterador.next().getNombre() , iterador.next().getIngreso());
 					setVacunasVencidas(getVacunasVencidas() + 1);
-					agregarVencida(iterador.next());
-					super.quitarVacuna(iterador.next());
+					agregarVencida(new Vacuna (otra));
+					iterador.remove();
 					super.setCantidad(getCantidad() - 1);
+					System.out.println("moderna");
 				}
 			}
 		}
