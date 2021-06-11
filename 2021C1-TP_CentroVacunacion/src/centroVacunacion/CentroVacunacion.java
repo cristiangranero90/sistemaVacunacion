@@ -121,9 +121,9 @@ public class CentroVacunacion {
 	* generar una excepci�n.
 	* Si la persona ya fue vacunada, tambi�n debe generar una excepci�n.
 	*/
-	public void inscribirPersona(int dni, String nombre, Fecha nacimiento, boolean tienePadecimientos, boolean esEmpleadoSalud) {
+	public void inscribirPersona(int dni,  Fecha nacimiento, boolean tienePadecimientos, boolean esEmpleadoSalud) {
 		
-		Persona nueva = new Persona(dni, nombre, nacimiento,tienePadecimientos, esEmpleadoSalud) ;
+		Persona nueva = new Persona(dni, nacimiento,tienePadecimientos, esEmpleadoSalud) ;
 		
 		if(Fecha.diferenciaAnios(new Fecha(), nacimiento) >= 18 &&
 				!estaInscripto(nueva) && 
