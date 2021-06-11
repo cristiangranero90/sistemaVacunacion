@@ -268,7 +268,7 @@ public class CentroVacunacion {
 		while(tur.hasNext() && !tengoPersona) {
 			Turno nuevo = tur.next();
 			
-			System.out.println(nuevo.persona.toString());
+			//System.out.println(nuevo.persona.toString());
 			if(nuevo.getPersona().getDni()==dni && nuevo.getFecha().compareTo(fechaVacunacion) == 0) {
 				
 				nuevo.getPersona().setEstaVacunado(true);
@@ -280,7 +280,7 @@ public class CentroVacunacion {
 			
 		}
 		if (!tengoPersona) {
-			throw new RuntimeException("buey");
+			throw new RuntimeException("La persona no esta inscripta");
 		}
 	}
 		
