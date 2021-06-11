@@ -3,8 +3,7 @@ package centroVacunacion;
 public class Turno {
 	Vacuna vacuna;
 	Fecha fecha;
-	Persona persona;
-	
+	Persona persona;	
 	
 	public Turno(Vacuna vac, Fecha fec, Persona per) {
 		vacuna=vac;
