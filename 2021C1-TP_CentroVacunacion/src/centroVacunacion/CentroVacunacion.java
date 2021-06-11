@@ -37,8 +37,10 @@ public class CentroVacunacion {
 	public void agendarTurno(Vacuna vac,  Fecha f, Persona per) {
 				
 		Turno nuevo = new Turno(new Vacuna(vac), new Fecha(f), new Persona (per));
-		if (!this.turnos.contains(nuevo)) {
-			//System.out.println(nuevo.getPersona().getDni());
+		System.out.println(!this.getTurnos().contains(nuevo));
+		if (!this.getTurnos().contains(nuevo)) {
+			
+			System.out.println(nuevo.getPersona().getDni()+ "agrega");
 			this.getTurnos().add(nuevo);
 		}
 				
@@ -188,7 +190,7 @@ public class CentroVacunacion {
 					
 					if (nueva != null) {
 						
-						agendarTurno(new Vacuna(nueva), new Fecha(fecha), new Persona (otra));	
+						agendarTurno(new Vacuna(nueva), new Fecha(fecha), otra);	
 						iterador.remove();
 						quitarVacuna(nueva);
 						//System.out.println(otra.getDni());
@@ -257,12 +259,12 @@ public class CentroVacunacion {
 	public void vacunarInscripto(int dni, Fecha fechaVacunacion) {
 		
 		for (Turno tur: this.getTurnos()) {
-			//System.out.println(tur.getPersona().getDni());
+			System.out.println(tur.getPersona().getDni());
 			if(tur.getPersona().getDni()==dni && tur.getFecha().compareTo(fechaVacunacion) == 0) {
 				
 				tur.getPersona().setEstaVacunado(true);
 				agregarAlReporte(tur.getPersona().getDni(), tur.getVacuna().getNombre());
-				vacunasDieciocho.quitarVacuna(tur.getVacuna());
+				//vacunasDieciocho.quitarVacuna(tur.getVacuna());
 				 
 				//agregarAlReporte(tur.getPersona().getDni(), tur.getVacuna().getNombre());
 				//vacunasTres.quitarVacuna(tur.getVacuna());
