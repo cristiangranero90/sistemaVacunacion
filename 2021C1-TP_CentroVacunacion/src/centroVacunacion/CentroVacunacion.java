@@ -39,8 +39,10 @@ public class CentroVacunacion {
 		Turno nuevo = new Turno(new Vacuna(vac), new Fecha(f), new Persona (per));
 		//System.out.println(!this.getTurnos().contains(nuevo));
 		//System.out.println(per.getNombre());
-		System.out.println(nuevo.getPersona().toString());
+		
+		
 		if (!this.getTurnos().contains(nuevo)) {
+			//System.out.println(nuevo.getPersona().toString());
 			
 			//System.out.println(nuevo.getPersona().getDni()+ "agrega");
 			this.getTurnos().add(nuevo);
@@ -260,19 +262,25 @@ public class CentroVacunacion {
 	public void vacunarInscripto(int dni, Fecha fechaVacunacion) {
 		
 		Iterator<Turno> tur = this.getTurnos().iterator();
+		boolean tengoPersona = false;
 		
-		while(tur.hasNext()) {
+		
+		while(tur.hasNext() && !tengoPersona) {
 			Turno nuevo = tur.next();
+			
 			System.out.println(nuevo.persona.toString());
 			if(nuevo.getPersona().getDni()==dni && nuevo.getFecha().compareTo(fechaVacunacion) == 0) {
 				
 				nuevo.getPersona().setEstaVacunado(true);
 				agregarAlReporte(nuevo.getPersona().getDni(), nuevo.getVacuna().getNombre());
 				tur.remove();
+				tengoPersona = true;
 			}
 			
-			else{
-				throw new RuntimeException ("El paciente no esta inscripto o no tiene turno este d�a");}
+			
+		}
+		if (!tengoPersona) {
+			throw new RuntimeException("buey");
 		}
 	}
 		
