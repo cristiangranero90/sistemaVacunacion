@@ -35,10 +35,13 @@ public class CentroVacunacion {
 	}
 	
 	public void agendarTurno(Vacuna vac,  Fecha f, Persona per) {
-		
-		Turno nuevo = new Turno(vac, f, per);
-		turnos.add(nuevo);
-		
+				
+		Turno nuevo = new Turno(new Vacuna(vac), new Fecha(f), new Persona (per));
+		if (!this.turnos.contains(nuevo)) {
+			//System.out.println(nuevo.getPersona().getDni());
+			this.getTurnos().add(nuevo);
+		}
+				
 	}
 		
 	/**
@@ -61,19 +64,19 @@ public class CentroVacunacion {
 				setStock(getStock() + cantidad);
 			}
 			else if (nombre.equals("moderna")) {
-				vacunasDieciocho.agregarVacunas(new Moderna (nombreVacuna, fechaIngreso), cantidad);
+				vacunasDieciocho.agregarVacunas(new Moderna (nombre, fechaIngreso), cantidad);
 				setStock(getStock() + cantidad);
 			}
 			else if (nombre.equals("pfizer")) {
-				vacunasDieciocho.agregarVacunas(new Pfizer (nombreVacuna, fechaIngreso), cantidad);
+				vacunasDieciocho.agregarVacunas(new Pfizer (nombre, fechaIngreso), cantidad);
 				setStock(getStock() + cantidad);
 			}
 			else if (nombre.equals("sinopharm")) {
-				vacunasTres.agregarVacunas(new Sinopharm (nombreVacuna, fechaIngreso) , cantidad);
+				vacunasTres.agregarVacunas(new Sinopharm (nombre, fechaIngreso) , cantidad);
 				setStock(getStock() + cantidad);
 			}
 			else if (nombre.equals("astrazeneca")) {
-				vacunasTres.agregarVacunas(new Astrazeneca (nombreVacuna, fechaIngreso), cantidad);
+				vacunasTres.agregarVacunas(new Astrazeneca (nombre, fechaIngreso), cantidad);
 				setStock(getStock() + cantidad);
 			}
 			else {
@@ -98,8 +101,10 @@ public class CentroVacunacion {
 	}
 	
 	public int vacunasDisponibles(String nombre) {
-		vacunasDieciocho.actualizarVencidas();		
-		return vacunasDieciocho.cantVacunas(nombre) + vacunasTres.cantVacunas(nombre);
+		//System.out.println(Fecha.hoy().toString());
+		vacunasDieciocho.actualizarVencidas();	
+		
+		return vacunasDieciocho.cantVacunas(nombre.toLowerCase()) + vacunasTres.cantVacunas(nombre.toLowerCase());
 	}
 	/**
 	* total de vacunas disponibles no vencidas que coincida con el nombre de
@@ -166,80 +171,45 @@ public class CentroVacunacion {
 	public void generarTurnos(Fecha fechaInicial) {
 		
 		if (fechaInicial.posterior(Fecha.hoy())) {
-			retirarTurnosVencidos(fechaInicial); 	
-			//generarPrioridad();
-			retirarVacunasVencidas();
-			System.out.println("entro a fecha");
-			//Fecha hoy = new Fecha();
-			int porDia;
-			boolean bandera = true;
-		
-		
-			//Falta armar los turnos
-			Iterator<Persona> iterador = inscriptos.iterator();
-		
-			while(bandera) {
-				
-				System.out.println("entro bandera");
-			 
-				porDia = getCapacidad(); //Renueva
 			
-				while (iterador.hasNext() && porDia>0 && vacunasDisponibles()>0) {
+			retirarTurnosVencidos(fechaInicial); 	
+			retirarVacunasVencidas();
+			int porDia = getCapacidad();
+			Persona otra = null;
+			Iterator<Persona> iterador = inscriptos.iterator();
+			Fecha fecha = new Fecha(fechaInicial);
+			
+			while (iterador.hasNext() && vacunasDisponibles() > 0) {
 				
-					Vacuna nueva = dameVacunaPorPrioridad(iterador.next().getPrioridad());
-					//System.out.println(iterador.next().getPrioridad());
-					System.out.println(nueva!=null);
+				if (porDia > 0) {
 					
-					if (nueva!=null && vacunasDisponibles() != 0 ) {
-						agendarTurno(nueva, fechaInicial, new Persona(iterador.next()));	
-						//Falta eliminar a la persona??? o lo hace vacunarInscriptos???
-						eliminarPersona(iterador.next());
-						porDia--;
-						System.out.println("Entro eliminar");
+					otra = iterador.next();
+					Vacuna nueva = dameVacunaPorPrioridad(otra.getPrioridad());
+					
+					if (nueva != null) {
 						
+						agendarTurno(new Vacuna(nueva), new Fecha(fecha), new Persona (otra));	
+						iterador.remove();
+						//System.out.println(otra.getDni());
+						porDia--;
 					}
 					else {
-						bandera = false;
+						break;
 					}
 				}
-				fechaInicial.avanzarUnDia();			
-				//NO sirve, revisar el ciclo while
-				//COmplica
+				else {
+					porDia = getCapacidad();
+					fecha.avanzarUnDia();
+					
+				}
 			}
 		}
 		else {
 			throw new RuntimeException();
 		}
-		//retirarAsignadas();
-		
 	}
-	private void retirarAsignadas() {
-		
-		Iterator<Vacuna> iterador = vacunasTres.getVacunas().iterator();
-		
-		while (iterador.hasNext()) {
-			
-			Vacuna nueva = iterador.next();
-			
-			if (nueva.isAsignada()) {
-				
-				vacunasTres.quitarVacuna(nueva);
-			}
-			
-		}
-		
-		Iterator<Vacuna> otroIterador = vacunasDieciocho.getVacunas().iterator();
-		
-		while(otroIterador.hasNext()) {
-			
-			Vacuna nueva = otroIterador.next();
-			
-			if(nueva.isAsignada()) {
-				
-				vacunasDieciocho.quitarVacuna(nueva);
-			}
-		}
-	}
+	
+
 
 	/**
 	* Devuelve una lista con los dni de las personas que tienen turno asignado
@@ -248,13 +218,19 @@ public class CentroVacunacion {
 	* La cantidad de turnos no puede exceder la capacidad por d�a de la ungs.
 	*/
 	public ArrayList<Integer> turnosConFecha(Fecha fecha){
+		
 		ArrayList<Integer>  lista = new ArrayList <Integer> ();
 		Iterator<Turno> iterador = turnos.iterator();
+		//System.out.println("fecha mandada" + fecha.toString());
 		
 		while (iterador.hasNext()) {
 			
-			if(iterador.next().getFecha().compareTo(fecha) == 0) {
-				lista.add(iterador.next().persona.dni);
+			Turno nueva = iterador.next();
+			
+			
+			if(nueva.getFecha().compareTo(fecha) == 0) {
+				lista.add(nueva.persona.dni);
+				//System.out.println(nueva.getFecha().toString());
 			}
 		}
 		return lista;
@@ -267,16 +243,18 @@ public class CentroVacunacion {
 	* - Si no est� inscripto o no tiene turno ese d�a, se genera una Excepcion.
 	*/
 	public void vacunarInscripto(int dni, Fecha fechaVacunacion) {
-		for (Turno tur: turnos) {
-			if(tur.persona.getDni()==dni && tur.fecha.equals(fechaVacunacion)) {
-				tur.persona.isEstaVacunado();
-				if(tur.vacuna.getNombre()=="Moderna" || tur.vacuna.getNombre()=="Pfizer") {
-					vacunasDieciocho.quitarVacuna(tur.vacuna);}
-				else { 
-					vacunasTres.quitarVacuna(tur.vacuna);
-					
+		
+		for (Turno tur: this.getTurnos()) {
+			//System.out.println(tur.getPersona().getDni());
+			if(tur.getPersona().getDni()==dni && tur.getFecha().equals(fechaVacunacion)) {
 				
-			}
+				tur.getPersona().setEstaVacunado(true);
+				agregarAlReporte(tur.getPersona().getDni(), tur.getVacuna().getNombre());
+				vacunasDieciocho.quitarVacuna(tur.getVacuna());
+				 
+				//agregarAlReporte(tur.getPersona().getDni(), tur.getVacuna().getNombre());
+				//vacunasTres.quitarVacuna(tur.getVacuna());
+			
 			}
 			else{
 				throw new RuntimeException ("El paciente no esta inscripto o no tiene turno este d�a");}
@@ -300,6 +278,8 @@ public class CentroVacunacion {
 	*/
 	public Map<String, Integer> reporteVacunasVencidas(){
 		
+		vacunasDieciocho.actualizarVencidas();
+		
 		HashMap<String, Integer> nuevo = new HashMap<>();
 		
 		nuevo.put("pfizer", vacunasDieciocho.dameVencidas("pfizer"));
@@ -311,18 +291,25 @@ public class CentroVacunacion {
 	
 	private void retirarTurnosVencidos(Fecha f) {
 		Iterator<Turno> iterador = turnos.iterator();
-		while (iterador.hasNext() && iterador.next().getFecha().compareTo(f)<0) {			
+		Turno nuevo = null;
+		
+		while (iterador.hasNext())  {	
+			nuevo = iterador.next();
 			
-			if(iterador.next().getVacuna().getNombre().equals("pfizer") || 
-					iterador.next().getVacuna().getNombre().equals("moderna")) {
+			if (nuevo.getFecha().compareTo(f)<0) {
 				
-				vacunasDieciocho.agregarVacunas(iterador.next().getVacuna());	
-				turnos.remove(iterador.next());
-			}
-			else {
-				vacunasTres.agregarVacunas(iterador.next().getVacuna());
-				turnos.remove(iterador.next());
-			}			
+				if(nuevo.getVacuna().getNombre().equals("pfizer") || 
+						nuevo.getVacuna().getNombre().equals("moderna")) {
+					
+					vacunasDieciocho.agregarVacunas(nuevo.getVacuna());	
+					iterador.remove();;
+				}
+				else {
+					vacunasTres.agregarVacunas(nuevo.getVacuna());
+					iterador.remove();
+				}				
+			}	
+				
 		}
 	}
 		
@@ -334,77 +321,63 @@ public class CentroVacunacion {
 	
 private Vacuna dameVacunaPorPrioridad(int prio) {
 		
-		//System.out.println(prio);
+		boolean tengoVacuna = false;
+		Vacuna nueva = null;
 		
-		if (prio==2 && vacunasDisponibles() > 0 && vacunasDieciocho != null) {
+		if (vacunasDieciocho.cantVacunas() > 0) {
 			
-			Iterator<Vacuna> todas = vacunasDieciocho.getVacunas().iterator();
+			Iterator<Vacuna> ite = vacunasDieciocho.getVacunas().iterator();
+			Vacuna vacunaModi = null;
+			
+			while (!tengoVacuna && ite.hasNext()) {
+				vacunaModi = ite.next();
+				
+				if (prio == 2){
+					
+					if (vacunaModi.getNombre().equals("pfizer")) {
 						
-			while(todas.hasNext() && todas != null) {
-				if (todas.next().getNombre().equals("pfizer")) {
-					Vacuna nueva = todas.next();
-					//vacunasDieciocho.quitarVacuna(todas.next());
-					todas.next().setAsignada(true);
-					todas.remove();
-					return nueva;
+						nueva = vacunaModi; tengoVacuna = true; ite.remove();
+						
+					}
+				}
+				else {
+					
+					//if (!vacunaModi.getNombre().equals("pfizer")) {
+						
+						nueva = vacunaModi; tengoVacuna = true; ite.remove();
+					//}
 				}
 			}
 		}
+		if (vacunasTres.cantVacunas() > 0 && !tengoVacuna) {
 			
-		else if (prio==2 && vacunasDisponibles() > 0 && vacunasTres != null) {
+			Iterator<Vacuna> otroIte = vacunasTres.getVacunas().iterator();
+			Vacuna vacunaModi = null;
 			
-			Iterator<Vacuna> tres = vacunasTres.getVacunas().iterator();
-			
-			while (tres.hasNext() && tres != null) {
-				if (tres.next().getNombre().equals("sputnik")) {
-					//Vacuna nueva = new Vacuna();
-					//nueva = tres.next();
-					//vacunasTres.quitarVacuna(tres.next());
-					tres.next().setAsignada(true);
-					tres.remove();
-					return tres.next();
+			while (otroIte.hasNext() && !tengoVacuna) {
+				vacunaModi = otroIte.next();
+				if (prio == 2) {
+					
+					if (vacunaModi.getNombre().equals("sputnik")) {
+						
+						nueva = vacunaModi; tengoVacuna = true; otroIte.remove();
+					}
+				}
+				else {
+					
+					//if (!vacunaModi.getNombre().equals("sputnik")) {
+						
+						nueva = vacunaModi; tengoVacuna = true; otroIte.remove();
+					//}
 				}
 			}
 		}
-	
-		
-		else if (vacunasDisponibles() > 0 && vacunasDieciocho != null) {
-			
-			Iterator<Vacuna> ocho = vacunasDieciocho.getVacunas().iterator();
-			
-			while(ocho.hasNext() && ocho != null) {
-				if (!ocho.next().getNombre().equals("pfizer")) {
-					//Vacuna nueva = new Vacuna();
-					//nueva = ocho.next();
-					//vacunasDieciocho.quitarVacuna(ocho.next());
-					ocho.next().setAsignada(true);
-					ocho.remove();
-					return ocho.next();
-				}
-			}
-		}
-			
-		if (vacunasDisponibles() > 0 && vacunasDieciocho != null) {
-			
-			Iterator<Vacuna> tresS = vacunasTres.getVacunas().iterator();
-			
-			while (tresS != null && tresS.hasNext() ) {
-				if (!tresS.next().getNombre().equals("sputnik")) {
-					//Vacuna nueva = new Vacuna();
-					//nueva = tresS.next();
-					//vacunasTres.quitarVacuna(tresS.next());
-					tresS.next().setAsignada(true);
-					tresS.remove();
-					return tresS.next();
-				}
-			}
-		}	
-		return null;				
+		return nueva;		
 	}
 	
-	public void agregarAlReporte(int dni, Vacuna vac ) {
+	public void agregarAlReporte(int dni, String vacuna ) {
 		
-		reporte.put((Integer) dni, vac.getNombre());
+		reporte.put((Integer) dni, vacuna);
 	}
 
 	//Getters and Setters----------------------------------------------------------------------------

@@ -7,9 +7,9 @@ public class Turno {
 	
 	
 	public Turno(Vacuna vac, Fecha fec, Persona per) {
-	vacuna=vac;
-	fecha=fec;
-	persona=per;
+		vacuna=vac;
+		fecha=fec;
+		persona=per;
 	}
 	
 	//Getters and Setters--------------------------------------------------------

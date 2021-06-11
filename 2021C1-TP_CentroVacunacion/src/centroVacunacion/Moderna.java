@@ -6,13 +6,13 @@ public class Moderna extends Vacuna {
 	int tiempoDeVencimiento;
 	
 	public Moderna (String nombre, Fecha fi) {
+		
 		super(nombre, fi);
 		this.tiempoDeVencimiento=60;
 		
-		fi.avanzarDias(getTiempoDeVencimiento());
-		
-		super.setIngreso(fi);
-		
+		Fecha otra = new Fecha(fi);
+		otra.avanzarDias(getTiempoDeVencimiento());		
+		super.setIngreso(otra);		
 				
 	}
 

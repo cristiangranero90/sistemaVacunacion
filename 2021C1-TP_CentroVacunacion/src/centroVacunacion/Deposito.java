@@ -1,7 +1,7 @@
 package centroVacunacion;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+//import java.util.Iterator;
 
 public class Deposito  {
 	
@@ -36,11 +36,17 @@ public class Deposito  {
 	public void agregarVacunas(Vacuna vac, int cantidad) {
 		
 		for (int i = 0; i<cantidad; i++) {
+<<<<<<< HEAD
 			vacunas.add(vac);
 		this.cantidad=this.cantidad+cantidad;
 			//	System.out.println("Entro a vacunasM");
 				
+=======
+			vacunas.add(vac);			
+			//	System.out.println("Entro a vacunasM");				
+>>>>>>> branch 'master' of https://gitlab.com/cristiangranero/sisvacunacion
 		}
+		setCantidad(getCantidad() + cantidad);
 	}
 	
 	public void quitarVacuna(Vacuna nueva) {
@@ -53,7 +59,8 @@ public class Deposito  {
 	public int cantVacunasNombre(String nombre) {
 		int contador = 0;
 		
-		for(Vacuna vac : vacunas) {
+		for(Vacuna vac : this.getVacunas()) {
+			
 			if (vac.getNombre().equals(nombre.toLowerCase())) {
 				contador++;
 			}
@@ -74,7 +81,7 @@ public class Deposito  {
 	public int cantVacunas(String nombre) {
 		int contador = 0;
 		
-		for(Vacuna vac : vacunas) {
+		for(Vacuna vac : getVacunas()) {
 			if (vac.getNombre().equals(nombre.toLowerCase())) {
 				contador++;
 			}

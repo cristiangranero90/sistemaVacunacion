@@ -108,13 +108,22 @@ public class Fecha implements Comparable<Fecha> {
 		if (fecha == null) 
 			return other.fecha == null;
 		else 
-			return fecha.equals(other.fecha);
+			return fecha.getDayOfMonth() == other.dia() &&
+			fecha.getMonthValue() == other.mes() &&
+			fecha.getYear() == other.anio();
 	}
 	
 	@Override
 	public int hashCode() {
 		return fecha == null ? 0 : fecha.hashCode();
 	}
+
+	@Override
+	public String toString() {
+		return "Fecha [otraFecha=" + fecha.getDayOfMonth() + fecha.getMonthValue() + fecha.getYear() + "]";
+	}
+	
+	
 	
 	
 

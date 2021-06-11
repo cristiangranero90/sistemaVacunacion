@@ -35,7 +35,10 @@ public class Persona {
 	}
 	
 	public Persona (Persona n) {
-		
+		this.edad = n.getEdad();
+		this.dni = n.getDni();
+		this.fechaNacimiento = n.getFechaNacimiento();
+		this.setPrioridad(n.getPrioridad());
 	}
 
 	public Persona (int dni, Fecha fechaNac, boolean tienePadecimientos, boolean esEmpleadoSalud){
