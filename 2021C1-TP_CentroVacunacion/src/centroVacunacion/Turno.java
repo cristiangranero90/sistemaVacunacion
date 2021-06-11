@@ -33,4 +33,10 @@ public class Turno {
 		this.persona = persona;
 	}
 
+	@Override
+	public String toString() {
+		return "Turno [vacuna=" + vacuna.toString() + ", fecha=" + fecha.toString() + ", persona=" + persona.toString() + "]";
+	}
+	
+
 }

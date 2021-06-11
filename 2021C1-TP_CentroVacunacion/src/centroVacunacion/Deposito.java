@@ -8,7 +8,6 @@ public class Deposito  {
 	protected ArrayList<Vacuna> vacunas;
 	protected int cantidad;
 	protected int temperatura;
-	//private int posicion;
 
 	public Deposito(int temperatura) {
 		
@@ -22,24 +21,18 @@ public class Deposito  {
 		
 		
 		vacunas.add(vac);
-		setCantidad(getCantidad() + 1);
-		//System.out.println("Entro a vacunasSimple");
-
-		
+		setCantidad(getCantidad() + 1);		
 	}
 	
 	public void agregarVacunas(Vacuna vac, int cantidad) {
 		
 		for (int i = 0; i<cantidad; i++) {
-			vacunas.add(vac);			
-			//	System.out.println("Entro a vacunasM");				
+			vacunas.add(vac);						
 		}
 		setCantidad(getCantidad() + cantidad);
 	}
 	
 	public void quitarVacuna(Vacuna nueva) {
-		//Vacuna nueva = new Vacuna(tipo, new Fecha());
-		
 		setCantidad(getCantidad() - 1);
 		vacunas.remove(nueva);
 	}
@@ -102,9 +95,14 @@ public class Deposito  {
 		this.temperatura = temperatura;
 	}
 
+	@Override
+	public String toString() {
+		return "Deposito [vacunas=" + vacunas + ", cantidad=" + cantidad + ", temperatura=" + temperatura + "]";
+	}
+
 	
 
-//--------------------------------Iterable / Iterator ----------------------------
+
 	
 	
 }

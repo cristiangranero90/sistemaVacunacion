@@ -36,15 +36,9 @@ public class CentroVacunacion {
 	
 	public void agendarTurno(Vacuna vac,  Fecha f, Persona per) {
 				
-		Turno nuevo = new Turno(new Vacuna(vac), new Fecha(f), new Persona (per));
-		//System.out.println(!this.getTurnos().contains(nuevo));
-		//System.out.println(per.getNombre());
-		
+		Turno nuevo = new Turno(new Vacuna(vac), new Fecha(f), new Persona (per));		
 		
 		if (!this.getTurnos().contains(nuevo)) {
-			//System.out.println(nuevo.getPersona().toString());
-			
-			//System.out.println(nuevo.getPersona().getDni()+ "agrega");
 			this.getTurnos().add(nuevo);
 		}
 				
@@ -102,12 +96,10 @@ public class CentroVacunacion {
 	*/
 	public int vacunasDisponibles() {	
 		vacunasDieciocho.actualizarVencidas();
-		//vacunasTres.actualizarVencidas();
 		return getVacunasTres().cantVacunas() + getVacunasDieciocho().cantVacunas();
 	}
 	
 	public int vacunasDisponibles(String nombre) {
-		//System.out.println(Fecha.hoy().toString());
 		vacunasDieciocho.actualizarVencidas();	
 		
 		return vacunasDieciocho.cantVacunas(nombre.toLowerCase()) + vacunasTres.cantVacunas(nombre.toLowerCase());
@@ -195,10 +187,8 @@ public class CentroVacunacion {
 					if (nueva != null) {
 						
 						agendarTurno(new Vacuna(nueva), new Fecha(fecha), new Persona(otra));
-						//System.out.println(otra.toString());
 						iterador.remove();
 						quitarVacuna(nueva);
-						//System.out.println(otra.getDni() + fecha.toString());
 						porDia--;
 					}
 					
@@ -238,7 +228,6 @@ public class CentroVacunacion {
 		
 		ArrayList<Integer>  lista = new ArrayList <Integer> ();
 		Iterator<Turno> iterador = turnos.iterator();
-		//System.out.println("fecha mandada" + fecha.toString());
 		
 		while (iterador.hasNext()) {
 			
@@ -247,7 +236,6 @@ public class CentroVacunacion {
 			
 			if(nueva.getFecha().compareTo(fecha) == 0) {
 				lista.add(nueva.persona.dni);
-				//System.out.println(nueva.getFecha().toString());
 			}
 		}
 		return lista;
@@ -267,8 +255,7 @@ public class CentroVacunacion {
 		
 		while(tur.hasNext() && !tengoPersona) {
 			Turno nuevo = tur.next();
-			
-			//System.out.println(nuevo.persona.toString());
+
 			if(nuevo.getPersona().getDni()==dni && nuevo.getFecha().compareTo(fechaVacunacion) == 0) {
 				
 				nuevo.getPersona().setEstaVacunado(true);
@@ -343,7 +330,6 @@ public class CentroVacunacion {
 	
 	private void retirarVacunasVencidas() {
 		vacunasDieciocho.actualizarVencidas();
-		//vacunasTres.actualizarVencidas();
 	}
 	
 private Vacuna dameVacunaPorPrioridad(int prio) {
@@ -368,12 +354,8 @@ private Vacuna dameVacunaPorPrioridad(int prio) {
 						
 					}
 				}
-				else {
-					
-					//if (!vacunaModi.getNombre().equals("pfizer")) {
-						
+				else {						
 						nueva = vacunaModi; tengoVacuna = true;
-					//}
 				}
 			}
 		}
@@ -391,12 +373,9 @@ private Vacuna dameVacunaPorPrioridad(int prio) {
 						nueva = vacunaModi; tengoVacuna = true;
 					}
 				}
-				else {
-					
-					//if (!vacunaModi.getNombre().equals("sputnik")) {
-						
+				else {						
 						nueva = vacunaModi; tengoVacuna = true;
-					//}
+					
 				}
 			}
 		}
@@ -480,6 +459,14 @@ private Vacuna dameVacunaPorPrioridad(int prio) {
 
 	public void setStock(int stock) {
 		this.stock = stock;
+	}
+
+	@Override
+	public String toString() {
+		return "CentroVacunacion [Capacidad: " + capacidad + ", nombre: " + nombre 
+				+ ", Vacunas disponibles: " + vacunasDisponibles() + ", Personas en espera: " + 
+				listaDeEspera().size() + "\nTurnos generados: " + getTurnos().size() + 
+				", Vacunas aplicadas: " + getReporte().size() + "]";
 	}
 	
 

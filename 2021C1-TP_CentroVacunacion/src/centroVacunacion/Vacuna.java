@@ -1,12 +1,11 @@
 package centroVacunacion;
 
 public class Vacuna {
+	
 	boolean conservacion;
-	//private int cantidad;
 	Fecha ingreso;
 	String nombre;
 	boolean asignada;
-	//private int vencidas;
 	boolean vencida;
 	
 	
@@ -19,11 +18,9 @@ public class Vacuna {
 	
 	public Vacuna (String nombre, Fecha fi) {
 		this.nombre=nombre;
-		//cantidad=cantidad+cant;
-		ingreso=fi;
-		conservacion=esRefrigerada(nombre);
-		//vencida=false;
 		
+		ingreso=fi;
+		conservacion=esRefrigerada(nombre);		
 		
 	}
 	
@@ -39,19 +36,6 @@ public class Vacuna {
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		return result;
 	}
-	
-	//public int dameTotal () {
-		//return cantidad;
-	//}
-	
-	//public int dameVencidad () {
-	//	return vencidas;
-	//}
-	
-	//public boolean estaVencida () {
-		
-	//	return isVencida();
-	//}
 
 	public boolean isConservacion() {
 		return conservacion;
@@ -110,4 +94,10 @@ public class Vacuna {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Vacuna [conservacion=" + conservacion + ", nombre=" + nombre + ", asignada=" + asignada + "]";
+	}
+	
 }

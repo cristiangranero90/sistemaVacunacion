@@ -99,9 +99,8 @@ public class Persona {
 
 	@Override
 	public String toString() {
-		return "Persona [ edad=" + edad + ", dni=" + dni
-				+ ", enfermedadPre=" + enfermedadPre + ", personalSalud="
-				+ personalSalud + "]";
+		return "Persona [nombre=" + nombre + ", edad=" + edad + ", dni=" + dni + ", estaVacunado=" + estaVacunado
+				+ ", prioridad=" + prioridad + "]";
 	}
 
 	public int getEdad() {
