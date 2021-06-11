@@ -480,6 +480,12 @@ private Vacuna dameVacunaPorPrioridad(int prio) {
 	public void setStock(int stock) {
 		this.stock = stock;
 	}
+
+	@Override
+	public String toString() {
+		return "CentroVacunacion [capacidad=" + capacidad + ", nombre=" + nombre + ", turnos=" + turnos
+				+ ", inscriptos=" + inscriptos + ", reporte=" + reporte + ", stock=" + stock + "]";
+	}
 	
 
 	

@@ -5,7 +5,12 @@ import java.util.Iterator;
 
 public class Deposito  {
 	
-	protected ArrayList<Vacuna> vacunas;
+	@Override
+	public String toString() {
+		return "Deposito [vacunas=" + vacunas + ", cantidad=" + cantidad + ", temperatura=" + temperatura + "]";
+	}
+
+	public ArrayList<Vacuna> vacunas;
 	protected int cantidad;
 	protected int temperatura;
 	//private int posicion;
@@ -32,7 +37,7 @@ public class Deposito  {
 		
 		for (int i = 0; i<cantidad; i++) {
 			vacunas.add(vac);
-				setCantidad(getCantidad() + 1);
+		this.cantidad=this.cantidad+cantidad;
 			//	System.out.println("Entro a vacunasM");
 				
 		}
@@ -58,6 +63,7 @@ public class Deposito  {
 	
 	public int cantVacunas() {
 		return vacunas.size();
+		
 	}
 	
 	public boolean existeVacuna(Vacuna vac) {
