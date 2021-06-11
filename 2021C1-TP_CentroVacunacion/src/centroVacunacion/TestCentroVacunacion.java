@@ -117,7 +117,7 @@ public class TestCentroVacunacion {
 		centroConVacunasVencidas.generarTurnos(new Fecha(20,5,2021));
 		
 		assertEquals(10, centroConVacunasVencidas.vacunasDisponibles("Pfizer"));
-		assertEquals(10, centroConVacunasVencidas.reporteVacunasVencidas().get("Pfizer").intValue());
+		assertEquals(10, centroConVacunasVencidas.reporteVacunasVencidas().get("pfizer").intValue());
 	}
 
 	/*************************************************************************/

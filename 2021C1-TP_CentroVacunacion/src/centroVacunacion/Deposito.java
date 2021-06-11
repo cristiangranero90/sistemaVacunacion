@@ -57,7 +57,7 @@ public class Deposito  {
 	}
 	
 	public int cantVacunas() {
-		return vacunas.size();
+		return getCantidad();
 	}
 	
 	public boolean existeVacuna(Vacuna vac) {

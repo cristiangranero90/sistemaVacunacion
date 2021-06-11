@@ -60,23 +60,23 @@ public class CentroVacunacion {
 			String nombre = nombreVacuna.toLowerCase();
 			
 			if (nombre.equals("sputnik")) {
-				vacunasTres.agregarVacunas(new Sputnik (nombre, fechaIngreso),cantidad);
+				vacunasTres.agregarVacunas(new Sputnik (nombre, new Fecha(fechaIngreso)),cantidad);
 				setStock(getStock() + cantidad);
 			}
 			else if (nombre.equals("moderna")) {
-				vacunasDieciocho.agregarVacunas(new Moderna (nombre, fechaIngreso), cantidad);
+				vacunasDieciocho.agregarVacunas(new Moderna (nombre, new Fecha (fechaIngreso)), cantidad);
 				setStock(getStock() + cantidad);
 			}
 			else if (nombre.equals("pfizer")) {
-				vacunasDieciocho.agregarVacunas(new Pfizer (nombre, fechaIngreso), cantidad);
+				vacunasDieciocho.agregarVacunas(new Pfizer (nombre, new Fecha(fechaIngreso)), cantidad);
 				setStock(getStock() + cantidad);
 			}
 			else if (nombre.equals("sinopharm")) {
-				vacunasTres.agregarVacunas(new Sinopharm (nombre, fechaIngreso) , cantidad);
+				vacunasTres.agregarVacunas(new Sinopharm (nombre, new Fecha(fechaIngreso)) , cantidad);
 				setStock(getStock() + cantidad);
 			}
 			else if (nombre.equals("astrazeneca")) {
-				vacunasTres.agregarVacunas(new Astrazeneca (nombre, fechaIngreso), cantidad);
+				vacunasTres.agregarVacunas(new Astrazeneca (nombre, new Fecha(fechaIngreso)), cantidad);
 				setStock(getStock() + cantidad);
 			}
 			else {
@@ -97,7 +97,7 @@ public class CentroVacunacion {
 	public int vacunasDisponibles() {	
 		vacunasDieciocho.actualizarVencidas();
 		//vacunasTres.actualizarVencidas();
-		return getStock();
+		return getVacunasTres().cantVacunas() + getVacunasDieciocho().cantVacunas();
 	}
 	
 	public int vacunasDisponibles(String nombre) {
@@ -127,7 +127,7 @@ public class CentroVacunacion {
 			inscriptos.add(nueva);
 		}
 		else {
-			throw new RuntimeException();
+			throw new RuntimeException("Persona no registrada");
 		}		
 	}
 	
@@ -190,6 +190,7 @@ public class CentroVacunacion {
 						
 						agendarTurno(new Vacuna(nueva), new Fecha(fecha), new Persona (otra));	
 						iterador.remove();
+						quitarVacuna(nueva);
 						//System.out.println(otra.getDni());
 						porDia--;
 					}
@@ -210,6 +211,17 @@ public class CentroVacunacion {
 	}
 	
 
+
+	private void quitarVacuna(Vacuna nueva) {
+		
+		if (nueva.getNombre().equals("pfizer") || nueva.getNombre().equals("moderna")) {
+			getVacunasDieciocho().quitarVacuna(nueva);
+		}
+		else {
+			getVacunasTres().quitarVacuna(nueva);
+		}
+		
+	}
 
 	/**
 	* Devuelve una lista con los dni de las personas que tienen turno asignado
@@ -246,7 +258,7 @@ public class CentroVacunacion {
 		
 		for (Turno tur: this.getTurnos()) {
 			//System.out.println(tur.getPersona().getDni());
-			if(tur.getPersona().getDni()==dni && tur.getFecha().equals(fechaVacunacion)) {
+			if(tur.getPersona().getDni()==dni && tur.getFecha().compareTo(fechaVacunacion) == 0) {
 				
 				tur.getPersona().setEstaVacunado(true);
 				agregarAlReporte(tur.getPersona().getDni(), tur.getVacuna().getNombre());
@@ -337,7 +349,7 @@ private Vacuna dameVacunaPorPrioridad(int prio) {
 					
 					if (vacunaModi.getNombre().equals("pfizer")) {
 						
-						nueva = vacunaModi; tengoVacuna = true; ite.remove();
+						nueva = vacunaModi; tengoVacuna = true;
 						
 					}
 				}
@@ -345,7 +357,7 @@ private Vacuna dameVacunaPorPrioridad(int prio) {
 					
 					//if (!vacunaModi.getNombre().equals("pfizer")) {
 						
-						nueva = vacunaModi; tengoVacuna = true; ite.remove();
+						nueva = vacunaModi; tengoVacuna = true;
 					//}
 				}
 			}
@@ -361,14 +373,14 @@ private Vacuna dameVacunaPorPrioridad(int prio) {
 					
 					if (vacunaModi.getNombre().equals("sputnik")) {
 						
-						nueva = vacunaModi; tengoVacuna = true; otroIte.remove();
+						nueva = vacunaModi; tengoVacuna = true;
 					}
 				}
 				else {
 					
 					//if (!vacunaModi.getNombre().equals("sputnik")) {
 						
-						nueva = vacunaModi; tengoVacuna = true; otroIte.remove();
+						nueva = vacunaModi; tengoVacuna = true;
 					//}
 				}
 			}

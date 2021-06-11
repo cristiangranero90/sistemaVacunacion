@@ -13,7 +13,7 @@ public class Vacuna {
 	public Vacuna(Vacuna vac) {
 		
 		this.nombre=vac.getNombre();
-		this.ingreso=Fecha.hoy();
+		this.ingreso=vac.getIngreso();
 		
 	}
 	

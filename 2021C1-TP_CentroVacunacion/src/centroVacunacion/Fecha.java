@@ -108,9 +108,7 @@ public class Fecha implements Comparable<Fecha> {
 		if (fecha == null) 
 			return other.fecha == null;
 		else 
-			return fecha.getDayOfMonth() == other.dia() &&
-			fecha.getMonthValue() == other.mes() &&
-			fecha.getYear() == other.anio();
+			return fecha.equals(other.fecha);
 	}
 	
 	@Override

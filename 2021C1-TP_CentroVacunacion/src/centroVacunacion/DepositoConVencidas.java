@@ -1,5 +1,6 @@
 package centroVacunacion;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -29,29 +30,31 @@ public class DepositoConVencidas extends Deposito {
 		for (int i = 0; i < cantidad; i++) {
 			//Vacuna nueva = new Vacuna(tipo, this.temperatura, Fecha f);			
 			agregarVacunas(vac);
+			//setCantidad(getCantidad() + 1);
 		}
-		setCantidad(getCantidad() + cantidad);
+		
 	}
 	
 	public void agregarVacunas(Vacuna vac) {
 		
-		super.agregarVacunas(new Vacuna(vac));
-	}
-	
-	public void quitarVacuna(Vacuna nueva) {
-		//Vacuna nueva = new Vacuna(tipo, new Fecha());
-		super.quitarVacuna(nueva);
-		setCantidad(getCantidad() - 1);
+		super.agregarVacunas(vac);
 	}
 	
 	public void agregarVencida(Vacuna vac) {
 		
 		if (vencidas.containsKey(vac.getNombre())) {
-			vencidas.replace(vac.getNombre(), vencidas.get(vac.getNombre()) + 1);
+			int numero = vencidas.get(vac.getNombre()).intValue();
+			vencidas.put(vac.getNombre(), numero + 1);
 			setVacunasVencidas(getVacunasVencidas() + 1);
+			setCantidad(getCantidad() - 1);
+			//System.out.println(vencidas.get(vac.getNombre()).intValue());
+			//System.out.println("actualiza");
 		}
 		else {
 			vencidas.put(vac.getNombre(), 1);
+			setVacunasVencidas(getVacunasVencidas() + 1);
+			setCantidad(getCantidad() - 1);
+			//System.out.println("agrega");
 		}
 		
 	}
@@ -66,42 +69,32 @@ public class DepositoConVencidas extends Deposito {
 	public void actualizarVencidas() {
 		
 		Iterator<Vacuna> iterador = super.getVacunas().iterator();
+		ArrayList<Vacuna> otraLista = new ArrayList<Vacuna>();
 		//Fecha otra = new Fecha();
-		System.out.println("empieza");
+		//System.out.println("empieza");
 		
 		while (iterador.hasNext()) {
-			Vacuna otra = iterador.next();
-			//System.out.println(Fecha.hoy().toString());
-
-			System.out.println("while");
-			
-			if (otra.getNombre().equals("pfizer") ){
-				if(otra.getIngreso().anterior(Fecha.hoy()));	{	
-					//Vacuna nueva = new Pfizer(iterador.next().getNombre() , iterador.next().getIngreso());
-					setVacunasVencidas(getVacunasVencidas() + 1);
-					agregarVencida(new Vacuna(otra));
-					iterador.remove();
-					super.setCantidad(getCantidad()-1);
-					System.out.println("pfizer");
-				}
-			}
-			else if(otra.getNombre().equals("moderna")) {
-				if(otra.getIngreso().anterior(Fecha.hoy()));	{	
-					//Vacuna nueva = new Moderna(iterador.next().getNombre() , iterador.next().getIngreso());
-					setVacunasVencidas(getVacunasVencidas() + 1);
-					agregarVencida(new Vacuna (otra));
-					iterador.remove();
-					super.setCantidad(getCantidad() - 1);
-					System.out.println("moderna");
-				}
-			}
+			Vacuna otra = iterador.next();			
+			if(otra.getIngreso().anterior(Fecha.hoy())) {	
+				otraLista.add(otra);
+				//System.out.println(otra.getIngreso().anterior(Fecha.hoy()) + otra.getIngreso().toString());
+			}	
+		}
+		//System.out.println(Fecha.hoy().toString());
+		Iterator<Vacuna> itLista = otraLista.iterator();
+		//int i = 0;
+		while(itLista.hasNext()) {	
+			Vacuna nueva = itLista.next();
+			agregarVencida(nueva);
+			quitarVacuna(nueva);			
+			//System.out.println(nueva.getNombre() + i++ +nueva.getIngreso().toString());
 		}
 	}
 	
 	public int dameVencidas(String tipo) {
 		
 		if (vencidas.containsKey(tipo)) {
-			return vencidas.get(tipo);	
+			return (int) vencidas.get(tipo);	
 		}
 		else {
 			return 0;
@@ -115,7 +108,7 @@ public class DepositoConVencidas extends Deposito {
 	
 	
 	public int cantVencidas() {		
-		return vencidas.size();
+		return getCantidad();
 	}
 
 	public int getCantidad() {
