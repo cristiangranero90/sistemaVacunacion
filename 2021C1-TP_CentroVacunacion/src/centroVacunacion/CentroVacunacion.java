@@ -37,10 +37,12 @@ public class CentroVacunacion {
 	public void agendarTurno(Vacuna vac,  Fecha f, Persona per) {
 				
 		Turno nuevo = new Turno(new Vacuna(vac), new Fecha(f), new Persona (per));
-		System.out.println(!this.getTurnos().contains(nuevo));
+		//System.out.println(!this.getTurnos().contains(nuevo));
+		//System.out.println(per.getNombre());
+		System.out.println(nuevo.getPersona().toString());
 		if (!this.getTurnos().contains(nuevo)) {
 			
-			System.out.println(nuevo.getPersona().getDni()+ "agrega");
+			//System.out.println(nuevo.getPersona().getDni()+ "agrega");
 			this.getTurnos().add(nuevo);
 		}
 				
@@ -119,9 +121,9 @@ public class CentroVacunacion {
 	* generar una excepci�n.
 	* Si la persona ya fue vacunada, tambi�n debe generar una excepci�n.
 	*/
-	public void inscribirPersona(int dni, Fecha nacimiento, boolean tienePadecimientos, boolean esEmpleadoSalud) {
+	public void inscribirPersona(int dni, String nombre, Fecha nacimiento, boolean tienePadecimientos, boolean esEmpleadoSalud) {
 		
-		Persona nueva = new Persona(dni, nacimiento,tienePadecimientos, esEmpleadoSalud) ;
+		Persona nueva = new Persona(dni, nombre, nacimiento,tienePadecimientos, esEmpleadoSalud) ;
 		
 		if(Fecha.diferenciaAnios(new Fecha(), nacimiento) >= 18 &&
 				!estaInscripto(nueva) && 
@@ -190,15 +192,14 @@ public class CentroVacunacion {
 					
 					if (nueva != null) {
 						
-						agendarTurno(new Vacuna(nueva), new Fecha(fecha), otra);	
+						agendarTurno(new Vacuna(nueva), new Fecha(fecha), new Persona(otra));
+						//System.out.println(otra.toString());
 						iterador.remove();
 						quitarVacuna(nueva);
-						//System.out.println(otra.getDni());
+						//System.out.println(otra.getDni() + fecha.toString());
 						porDia--;
 					}
-					else {
-						break;
-					}
+					
 				}
 				else {
 					porDia = getCapacidad();
@@ -258,25 +259,29 @@ public class CentroVacunacion {
 	*/
 	public void vacunarInscripto(int dni, Fecha fechaVacunacion) {
 		
-		for (Turno tur: this.getTurnos()) {
-			System.out.println(tur.getPersona().getDni());
-			if(tur.getPersona().getDni()==dni && tur.getFecha().compareTo(fechaVacunacion) == 0) {
+		Iterator<Turno> tur = this.getTurnos().iterator();
+		
+		while(tur.hasNext()) {
+			Turno nuevo = tur.next();
+			System.out.println(nuevo.persona.toString());
+			if(nuevo.getPersona().getDni()==dni && nuevo.getFecha().compareTo(fechaVacunacion) == 0) {
 				
-				tur.getPersona().setEstaVacunado(true);
-				agregarAlReporte(tur.getPersona().getDni(), tur.getVacuna().getNombre());
-				//vacunasDieciocho.quitarVacuna(tur.getVacuna());
-				 
-				//agregarAlReporte(tur.getPersona().getDni(), tur.getVacuna().getNombre());
-				//vacunasTres.quitarVacuna(tur.getVacuna());
-			
+				nuevo.getPersona().setEstaVacunado(true);
+				agregarAlReporte(nuevo.getPersona().getDni(), nuevo.getVacuna().getNombre());
+				tur.remove();
 			}
+			
 			else{
 				throw new RuntimeException ("El paciente no esta inscripto o no tiene turno este d�a");}
-			}
+		}
+	}
+		
+		
+		
 		
 		
 		//Este ni puta idea mai fren
-	}
+	
 	/**
 	* Devuelve un Diccionario donde
 	* - la clave es el dni de las personas vacunadas

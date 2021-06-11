@@ -39,10 +39,12 @@ public class Persona {
 		this.dni = n.getDni();
 		this.fechaNacimiento = n.getFechaNacimiento();
 		this.setPrioridad(n.getPrioridad());
+		this.nombre = n.getNombre();
 	}
 
-	public Persona (int dni, Fecha fechaNac, boolean tienePadecimientos, boolean esEmpleadoSalud){
+	public Persona (int dni, String nombre, Fecha fechaNac, boolean tienePadecimientos, boolean esEmpleadoSalud){
 		this.edad=Fecha.diferenciaAnios(Fecha.hoy(), fechaNac);
+		this.nombre = nombre;
 		this.dni=dni;
 		this.enfermedadPre=tienePadecimientos;
 		this.personalSalud=esEmpleadoSalud;
