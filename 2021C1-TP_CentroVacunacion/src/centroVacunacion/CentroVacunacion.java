@@ -16,7 +16,6 @@ public class CentroVacunacion {
 	ArrayList <Persona> inscriptos;
 	HashMap <Integer,String> reporte; 
 	int vacunasVencidas;
-	int stock;
 	
 	//* Constructor.
 	//* recibe el nombre del centro y la capacidad de vacunaci�n diaria.
@@ -61,23 +60,23 @@ public class CentroVacunacion {
 			
 			if (nombre.equals("sputnik")) {
 				vacunasTres.agregarVacunas(new Sputnik (nombre, new Fecha(fechaIngreso)),cantidad);
-				setStock(getStock() + cantidad);
+				
 			}
 			else if (nombre.equals("moderna")) {
 				vacunasDieciocho.agregarVacunas(new Moderna (nombre, new Fecha (fechaIngreso)), cantidad);
-				setStock(getStock() + cantidad);
+				
 			}
 			else if (nombre.equals("pfizer")) {
 				vacunasDieciocho.agregarVacunas(new Pfizer (nombre, new Fecha(fechaIngreso)), cantidad);
-				setStock(getStock() + cantidad);
+				
 			}
 			else if (nombre.equals("sinopharm")) {
 				vacunasTres.agregarVacunas(new Sinopharm (nombre, new Fecha(fechaIngreso)) , cantidad);
-				setStock(getStock() + cantidad);
+				
 			}
 			else if (nombre.equals("astrazeneca")) {
 				vacunasTres.agregarVacunas(new Astrazeneca (nombre, new Fecha(fechaIngreso)), cantidad);
-				setStock(getStock() + cantidad);
+				
 			}
 			else {
 				throw new RuntimeException ("el nombre ingresado no corresponde a una vacuna");
@@ -451,14 +450,6 @@ private Vacuna dameVacunaPorPrioridad(int prio) {
 
 	public void setVacunasVencidas(int vacunasVencidas) {
 		this.vacunasVencidas = vacunasVencidas;
-	}
-
-	public int getStock() {
-		return stock;
-	}
-
-	public void setStock(int stock) {
-		this.stock = stock;
 	}
 
 	@Override
