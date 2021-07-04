@@ -130,7 +130,7 @@ public class CentroVacunacion {
 	
 	public boolean estaEnReporte(int dni) {
 
-		return reporte.containsKey(dni);
+		return getReporte().containsKey(dni);
 	}
 
 	public void eliminarPersona(Persona per) {
@@ -201,7 +201,7 @@ public class CentroVacunacion {
 			}
 		}
 		else {
-			throw new RuntimeException();
+			throw new RuntimeException("No se pudo generar los turnos. ");
 		}
 	}
 	

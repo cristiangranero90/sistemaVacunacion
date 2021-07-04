@@ -96,7 +96,7 @@ public class TestCentroVacunacion {
 
 		centro.generarTurnos(new Fecha(5,7,2021));
 		
-		assertEquals(19, centro.vacunasDisponibles());
+		assertEquals(12, centro.vacunasDisponibles());
 		assertTrue(centro.listaDeEspera().isEmpty());
 	}
 	
