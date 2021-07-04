@@ -172,7 +172,7 @@ public class CentroVacunacion {
 			retirarTurnosVencidos(fechaInicial); 	
 			retirarVacunasVencidas();
 			int porDia = getCapacidad();
-			Persona otra = null;
+			Persona otra;
 			Iterator<Persona> iterador = inscriptos.iterator();
 			Fecha fecha = new Fecha(fechaInicial);
 			
@@ -182,7 +182,6 @@ public class CentroVacunacion {
 					
 					otra = iterador.next();
 					Vacuna nueva = dameVacunaPorPrioridad(otra.getPrioridad());
-					System.out.println(otra.getDni());
 					
 					if (nueva != null) {
 						
@@ -251,7 +250,6 @@ public class CentroVacunacion {
 		
 		Iterator<Turno> tur = this.getTurnos().iterator();
 		boolean tengoPersona = false;
-		System.out.println(getTurnos().size() + "Turnos");
 		
 		while(tur.hasNext() && !tengoPersona) {
 			Turno nuevo = tur.next();
