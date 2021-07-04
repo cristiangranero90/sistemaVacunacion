@@ -31,8 +31,8 @@ public class TestCentroVacunacion {
 		
 		assertEquals(20, centro.vacunasDisponibles());
 
-		centro.ingresarVacunas("Pfizer", 10,new Fecha(20,3,2021));
-		centro.ingresarVacunas("Moderna", 10,new Fecha(20,3,2021));
+		centro.ingresarVacunas("Pfizer", 10,new Fecha(20,5,2021));
+		centro.ingresarVacunas("Moderna", 10,new Fecha(20,5,2021));
 		centro.ingresarVacunas("Sinopharm", 10,new Fecha(20,3,2021));
 
 		assertEquals(50, centro.vacunasDisponibles());
@@ -50,10 +50,10 @@ public class TestCentroVacunacion {
 
 	@Test
 	public void testGenerarYConsultarTurnos() {
-		Fecha fechaInicial = new Fecha(2, 7, 2021);
-		Fecha fechaSiguiente = new Fecha(3, 7, 2021);
-		Fecha fechaAnteriorSinTurnos = new Fecha(1, 7, 2021);
-		Fecha fechaPosteriorSinTurnos = new Fecha(4, 7, 2021);
+		Fecha fechaInicial = new Fecha(2, 8, 2021);
+		Fecha fechaSiguiente = new Fecha(3, 8, 2021);
+		Fecha fechaAnteriorSinTurnos = new Fecha(1, 8, 2021);
+		Fecha fechaPosteriorSinTurnos = new Fecha(4, 8, 2021);
 
 		assertEquals(8, centro.listaDeEspera().size());
 		assertEquals(20, centro.vacunasDisponibles());

@@ -171,6 +171,7 @@ public class CentroVacunacion {
 			
 			retirarTurnosVencidos(fechaInicial); 	
 			retirarVacunasVencidas();
+			ordenarInscriptosPorPrioridad();
 			int porDia = getCapacidad();
 			Persona otra;
 			Iterator<Persona> iterador = inscriptos.iterator();
@@ -205,17 +206,6 @@ public class CentroVacunacion {
 	}
 	
 
-
-	private void quitarVacuna(Vacuna nueva) {
-		
-		if (nueva.getNombre().equals("pfizer") || nueva.getNombre().equals("moderna")) {
-			getVacunasDieciocho().quitarVacuna(nueva);
-		}
-		else {
-			getVacunasTres().quitarVacuna(nueva);
-		}
-		
-	}
 
 	/**
 	* Devuelve una lista con los dni de las personas que tienen turno asignado
@@ -300,7 +290,35 @@ public class CentroVacunacion {
 		return nuevo;		
 		
 	}
+	private void ordenarInscriptosPorPrioridad() {
+		
+		ArrayList<Persona> auxiliar = new ArrayList<>();
+		int prioridad = 1;
+		
+		while (prioridad <= 4) {
+			for (Persona per : getInscriptos()) {
+				if (per.getPrioridad() == prioridad) {
+					auxiliar.add(auxiliar.size(), per);
+				}
+			}
+			prioridad++;			
+		}
+		
+		setInscriptos(auxiliar);
+		
+	}
 	
+	private void quitarVacuna(Vacuna nueva) {
+		
+		if (nueva.getNombre().equals("pfizer") || nueva.getNombre().equals("moderna")) {
+			getVacunasDieciocho().quitarVacuna(nueva);
+		}
+		else {
+			getVacunasTres().quitarVacuna(nueva);
+		}
+		
+	}
+
 	private void retirarTurnosVencidos(Fecha f) {
 		Iterator<Turno> iterador = turnos.iterator();
 		Turno nuevo = null;
@@ -427,11 +445,11 @@ private Vacuna dameVacunaPorPrioridad(int prio) {
 		this.turnos = turnos;
 	}
 
-	public ArrayList<Persona> getInscriptos() {
+	private ArrayList<Persona> getInscriptos() {
 		return inscriptos;
 	}
 
-	public void setInscriptos(ArrayList<Persona> inscriptos) {
+	private void setInscriptos(ArrayList<Persona> inscriptos) {
 		this.inscriptos = inscriptos;
 	}
 
