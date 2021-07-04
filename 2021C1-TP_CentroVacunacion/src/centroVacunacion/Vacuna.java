@@ -2,12 +2,11 @@ package centroVacunacion;
 
 public class Vacuna {
 	
-	boolean conservacion;
-	Fecha ingreso;
-	String nombre;
-	boolean asignada;
-	boolean vencida;
-	
+	private boolean conservacion;
+	private Fecha ingreso;
+	private String nombre;
+	private boolean asignada;
+	private boolean vencida;	
 	
 	public Vacuna(Vacuna vac) {
 		

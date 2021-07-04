@@ -1,9 +1,9 @@
 package centroVacunacion;
 
 public class Moderna extends Vacuna {
-	Fecha vencimiento;
-	int espacioEnHeladera;
-	int tiempoDeVencimiento;
+	private Fecha vencimiento;
+	private int espacioEnHeladera;
+	private int tiempoDeVencimiento;
 	
 	public Moderna (String nombre, Fecha fi) {
 		

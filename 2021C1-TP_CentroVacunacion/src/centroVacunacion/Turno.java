@@ -1,9 +1,9 @@
 package centroVacunacion;
 
 public class Turno {
-	Vacuna vacuna;
-	Fecha fecha;
-	Persona persona;	
+	private Vacuna vacuna;
+	private Fecha fecha;
+	private Persona persona;	
 	
 	public Turno(Vacuna vac, Fecha fec, Persona per) {
 		vacuna=vac;

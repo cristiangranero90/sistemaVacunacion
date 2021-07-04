@@ -1,14 +1,14 @@
 package centroVacunacion;
 
 public class Persona {
-	String nombre;
-	int edad;
-	int dni;
-	boolean enfermedadPre;
-	boolean personalSalud;
-	Fecha fechaNacimiento;
-	boolean estaVacunado;
-	int prioridad;
+	private String nombre;
+	private int edad;
+	private int dni;
+	private boolean enfermedadPre;
+	private boolean personalSalud;
+	private Fecha fechaNacimiento;
+	private boolean estaVacunado;
+	private int prioridad;
 	
 	public Fecha getFechaNacimiento() {
 		return fechaNacimiento;

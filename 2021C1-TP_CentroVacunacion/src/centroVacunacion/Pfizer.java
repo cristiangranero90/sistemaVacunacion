@@ -1,7 +1,7 @@
 package centroVacunacion;
 
 public class Pfizer extends Vacuna {
-	public Fecha vencimiento;
+	private Fecha vencimiento;
 	//int espacioEnHeladera;
 	private final int tiempoDeVencimiento;
 	

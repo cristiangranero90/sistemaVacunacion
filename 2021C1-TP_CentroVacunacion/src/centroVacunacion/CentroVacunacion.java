@@ -6,16 +6,16 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class CentroVacunacion {
-	int capacidad;
-	String nombre;
-	DepositoConVencidas vacunasDieciocho;
-	Deposito vacunasTres;
+	private int capacidad;
+	private String nombre;
+	private DepositoConVencidas vacunasDieciocho;
+	private Deposito vacunasTres;
 	
 	//ArrayList <Vacuna> vacunas;
-	ArrayList<Turno> turnos; 
-	ArrayList <Persona> inscriptos;
-	HashMap <Integer,String> reporte; 
-	int vacunasVencidas;
+	private ArrayList<Turno> turnos; 
+	private ArrayList <Persona> inscriptos;
+	private HashMap <Integer,String> reporte; 
+	private int vacunasVencidas;
 	
 	//* Constructor.
 	//* recibe el nombre del centro y la capacidad de vacunaci�n diaria.
@@ -234,7 +234,7 @@ public class CentroVacunacion {
 			
 			
 			if(nueva.getFecha().compareTo(fecha) == 0) {
-				lista.add(nueva.persona.dni);
+				lista.add(nueva.getPersona().getDni());
 			}
 		}
 		return lista;
