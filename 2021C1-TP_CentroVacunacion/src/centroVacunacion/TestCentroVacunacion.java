@@ -73,7 +73,7 @@ public class TestCentroVacunacion {
 	@Test
 	public void testGenerarTurnosYRegistrarVacunacion() {
 		int dniAVacunar=29959000;
-		Fecha fecha = new Fecha(30,6,2021);
+		Fecha fecha = new Fecha(30,7,2021);
 		assertEquals(20, centro.vacunasDisponibles());
 		assertTrue(centro.listaDeEspera().contains(dniAVacunar));
 		assertFalse(centro.reporteVacunacion().containsKey(dniAVacunar));

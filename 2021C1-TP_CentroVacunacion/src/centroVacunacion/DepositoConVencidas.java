@@ -50,7 +50,6 @@ public class DepositoConVencidas extends Deposito {
 		
 		while (iterador.hasNext()) {
 			Vacuna otra = iterador.next();	
-			System.out.println(otra.getNombre());
 			
 			if (otra.getNombre().equals("moderna") ) {
 				
@@ -67,7 +66,6 @@ public class DepositoConVencidas extends Deposito {
 		}
 		
 		Iterator<Vacuna> itLista = otraLista.iterator();
-		System.out.println(otraLista.size());
 		
 		while(itLista.hasNext()) {	
 			Vacuna nueva = itLista.next();

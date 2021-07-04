@@ -182,6 +182,7 @@ public class CentroVacunacion {
 					
 					otra = iterador.next();
 					Vacuna nueva = dameVacunaPorPrioridad(otra.getPrioridad());
+					System.out.println(otra.getDni());
 					
 					if (nueva != null) {
 						
@@ -250,12 +251,12 @@ public class CentroVacunacion {
 		
 		Iterator<Turno> tur = this.getTurnos().iterator();
 		boolean tengoPersona = false;
-		
+		System.out.println(getTurnos().size() + "Turnos");
 		
 		while(tur.hasNext() && !tengoPersona) {
 			Turno nuevo = tur.next();
 
-			if(nuevo.getPersona().getDni()==dni && nuevo.getFecha().compareTo(fechaVacunacion) == 0) {
+			if(nuevo.getPersona().getDni()==dni && nuevo.getFecha().equals(fechaVacunacion)) {
 				
 				nuevo.getPersona().setEstaVacunado(true);
 				agregarAlReporte(nuevo.getPersona().getDni(), nuevo.getVacuna().getNombre());
@@ -454,6 +455,7 @@ private Vacuna dameVacunaPorPrioridad(int prio) {
 
 	@Override
 	public String toString() {
+		
 		return "CentroVacunacion [Capacidad: " + capacidad + ", nombre: " + nombre 
 				+ ", Vacunas disponibles: " + vacunasDisponibles() + ", Personas en espera: " + 
 				listaDeEspera().size() + "\nTurnos generados: " + getTurnos().size() + 
