@@ -27,11 +27,6 @@ public class DepositoConVencidas extends Deposito {
 		
 	}
 	
-	public void agregarVacunas(Vacuna vac) {
-		
-		super.agregarVacunas(vac);
-	}
-	
 	public void agregarVencida(Vacuna vac) {
 		
 		if (vencidas.containsKey(vac.getNombre())) {
@@ -54,16 +49,29 @@ public class DepositoConVencidas extends Deposito {
 		ArrayList<Vacuna> otraLista = new ArrayList<Vacuna>();
 		
 		while (iterador.hasNext()) {
-			Vacuna otra = iterador.next();			
-			if(otra.getIngreso().anterior(Fecha.hoy())) {	
-				otraLista.add(otra);
-			}	
+			Vacuna otra = iterador.next();	
+			System.out.println(otra.getNombre());
+			
+			if (otra.getNombre().equals("moderna") ) {
+				
+				if( ((Moderna) otra).getVencimiento().anterior(Fecha.hoy())) {	
+					otraLista.add(otra);
+				}	
+			}
+			if (otra.getNombre().equals("pfizer")) {
+				
+				if( ((Pfizer) otra).getVencimiento().anterior(Fecha.hoy())) {	
+					otraLista.add(otra);
+				}					
+			}			
 		}
 		
 		Iterator<Vacuna> itLista = otraLista.iterator();
+		System.out.println(otraLista.size());
 		
 		while(itLista.hasNext()) {	
 			Vacuna nueva = itLista.next();
+			
 			agregarVencida(nueva);
 			quitarVacuna(nueva);			
 		}

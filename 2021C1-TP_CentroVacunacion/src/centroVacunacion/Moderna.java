@@ -1,8 +1,8 @@
 package centroVacunacion;
 
 public class Moderna extends Vacuna {
-	private Fecha vencimiento;
-	private int espacioEnHeladera;
+	
+	private Fecha vencimiento;	
 	private int tiempoDeVencimiento;
 	
 	public Moderna (String nombre, Fecha fi) {
@@ -12,7 +12,7 @@ public class Moderna extends Vacuna {
 		
 		Fecha otra = new Fecha(fi);
 		otra.avanzarDias(getTiempoDeVencimiento());		
-		super.setIngreso(otra);		
+		setVencimiento(otra);	
 				
 	}
 

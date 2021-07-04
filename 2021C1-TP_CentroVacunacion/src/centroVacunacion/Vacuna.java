@@ -89,7 +89,8 @@ public class Vacuna {
 		if (nombre == null) {
 			if (other.nombre != null)
 				return false;
-		} else if (!nombre.equals(other.nombre))
+		} else if (!nombre.equals(other.nombre) &&
+				!ingreso.equals(other.ingreso))
 			return false;
 		return true;
 	}

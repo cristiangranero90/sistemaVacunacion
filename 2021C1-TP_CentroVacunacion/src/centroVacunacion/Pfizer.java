@@ -1,8 +1,8 @@
 package centroVacunacion;
 
 public class Pfizer extends Vacuna {
-	private Fecha vencimiento;
-	//int espacioEnHeladera;
+	
+	private Fecha vencimiento;	
 	private final int tiempoDeVencimiento;
 	
 	public Pfizer (String nombre, Fecha fi) {
@@ -12,7 +12,7 @@ public class Pfizer extends Vacuna {
 		
 		Fecha otra = new Fecha(fi);
 		otra.avanzarDias(getTiempoDeVencimiento());				
-		super.setIngreso(otra);		
+		setVencimiento(otra);	
 	}
 
 	public Fecha getVencimiento() {
