@@ -472,13 +472,16 @@ private Vacuna dameVacunaPorPrioridad(int prio) {
 	@Override
 	public String toString() {
 		
-		return "CentroVacunacion [Capacidad: " + capacidad + ", nombre: " + nombre 
-				+ ", Vacunas disponibles: " + vacunasDisponibles() + ", Personas en espera: " + 
-				listaDeEspera().size() + "\nTurnos generados: " + getTurnos().size() + 
-				", Vacunas aplicadas: " + getReporte().size() + "]";
-	}
-	
-
-	
+		StringBuilder sb = new StringBuilder();
+		sb.append("CentroVacunacion [Capacidad: " + capacidad);
+		sb.append(", nombre: " + nombre);
+		sb.append(", Vacunas disponibles: " + vacunasDisponibles());
+		sb.append(", Personas en espera: " + listaDeEspera().size());
+		sb.append("\nTurnos generados: " + getTurnos().size());
+		sb.append(", Vacunas aplicadas: " + getReporte().size() + "]");
+		
+		return sb.toString();
+		
+	}	
 
 }
